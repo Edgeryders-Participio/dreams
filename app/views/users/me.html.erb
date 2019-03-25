@@ -20,8 +20,8 @@
           <% end %>
         </ul>
 
-        <% if @memberships.exists? %>
-          <p><b><%=t :cocreators_list_guidetext %></b></p>
+          <% if @memberships.any? %>
+            <p><b><%=t :cocreators_list_guidetext %></b></p>
 
           <% @memberships.each do |member| %>
             <span><%= member.email %></span><br>

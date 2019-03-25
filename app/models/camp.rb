@@ -12,7 +12,7 @@ class Camp < ApplicationRecord
   include AppSettings
   belongs_to :creator, class_name: 'User', foreign_key: 'user_id'
 
-  has_many :memberships, dependent: :destroy
+  has_many :memberships, as: :collective, dependent: :destroy
   has_many :users, through: :memberships
   has_many :images #, :dependent => :destroy
   has_many :grants

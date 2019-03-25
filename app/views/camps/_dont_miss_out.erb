@@ -1,3 +1,17 @@
+<!--
+  TODO: We want to get rid of the Lockdown class entirely, as this should be
+  handled by the camp's event now. We'd call the partial like so:
+-->
+<%# render partial: 'camps/dont_miss_out', locals: { camp: camp, action: :submission_deadline } %>
+
+<!-- Then, use the camp's value in the view: -->
+<%#
+  t(:'dont_miss_out.banner', {
+    time: distance_of_time_in_words(Time.now, camp.send(action)),
+    action: t(:"dont_miss_out.actions.#{action}")
+  })
+%>
+
 <%
   lockdown_info = Lockdown.instance.next(except)
   if lockdown_info.present?

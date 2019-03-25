@@ -1,0 +1,13 @@
+<!-- TODO: display a list of events, perhaps similar to the existing camps/list partial -->
+<ul>
+  <% @events.each do |event| %>
+    <li><%= event.name %></li>
+  <% end %>
+</ul>
+
+<!--
+  It may be worth considering writing an 'events/list' partial, modelled off of
+  the existing camps/index partial, which could be reused on this page and on an
+  organization#show page to list events
+-->
+<%# render partial: 'events/index', locals: { events: @events } %>

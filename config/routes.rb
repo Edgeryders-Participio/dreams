@@ -1,15 +1,22 @@
 Rails.application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
-  
-  root 'camps#index'
-  
+
+  root 'events#current'
+
   devise_for :users,
     controllers: { 
       omniauth_callbacks: 'users/omniauth_callbacks',
       registrations: 'users/registrations' 
   }
-  
+
+  resources :organizations, only: :show
+  resources :events, only: :show do
+    get :current, on: :collection
+    get :future, on: :collection
+    get :past, on: :collection
+  end
+
   resources :camps, :path => 'dreams' do
     resources :images
     resources :people, only: [:show, :update]

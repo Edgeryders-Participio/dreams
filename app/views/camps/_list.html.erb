@@ -1,5 +1,13 @@
 <div id="filterrific_results">
 
+    <!--
+      TODO: fix this partial so that it can be used in multiple places.
+      We mustn't rely upon @camps in this view, and instead listen properly
+      to the 'camps' local that should be passed in. There's a couple other
+      troubles with this partial as it stands today, but I'll let the hackers
+      figure those ones out ;)
+    -->
+
     <%=t :sort_by%>:
     <%= filterrific_sorting_link(@filterrific, :updated_at) %>
 

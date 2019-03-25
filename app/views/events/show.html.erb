@@ -1,0 +1,19 @@
+<!-- TODO: make a more engaging event page! -->
+<h1><%= @event.name %></h1>
+
+<ul>
+  <% @event.camps.each do |camp| %>
+    <li><%= camp.name %></li>
+  <% end %>
+</ul>
+
+<!--
+  TODO: Likely much of the code from camps#index wants to be moved here, including
+  rendering the camps/list partial with @event.camps
+-->
+<%# render partial: 'camps/list', locals: { camps: @event.camps } %>
+
+<!--
+  TODO: we also likely want to provide a link to the event's organization here
+  (or, alternatively, provide information about the organizers directly on this page)
+-->

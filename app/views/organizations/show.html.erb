@@ -1,0 +1,9 @@
+<!-- TODO: make a more engaging organization page! -->
+<h1><%= @organization.name %></h1>
+<p><%= @organization.bio %></p>
+
+<ul>
+  <% @organization.events.each do |event| %>
+    <li><%= event.name %></li>
+  <% end %>
+</ul>

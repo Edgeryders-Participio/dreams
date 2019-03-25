@@ -21,6 +21,21 @@
 
             <%= link_to t("top_headline_faq"), '/pages/faq-'+I18n.locale.to_s %>
             <%= link_to t("how_can_i_help_title"), howcanihelp_path %>
+            <!--
+              TODO: We may need a concept of a 'current_event' here, to allow us
+              to determine whether to display the Submit Dream button, and where
+              it goes to. A hacky but simple solution might be:
+            -->
+            <%#
+              def current_event
+                @event || @camp&.event
+              end
+
+              then, in the view:
+              if current_event&.can_submit?
+                link_to t("register_creation_menu", new_camp_path(event_id: current_event.id))
+              end
+            %>
             <% if user_signed_in? and !app_setting('disable_open_new_dream') and Lockdown.instance.allowed?('submit_dream') %>
               <%= link_to t("register_creation_menu"), new_camp_path %>
             <% end %>

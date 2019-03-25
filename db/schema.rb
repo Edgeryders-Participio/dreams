@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170830102511) do
+ActiveRecord::Schema.define(version: 20190213093958) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace",     :index=>{:name=>"index_active_admin_comments_on_namespace"}
@@ -150,6 +150,18 @@ ActiveRecord::Schema.define(version: 20170830102511) do
     t.string   "en_subtitle",                                              :limit=>255
     t.string   "dream_point_of_contact_email",                             :limit=>64
     t.string   "safety_file_comments",                                     :limit=>4096
+    t.integer  "event_id",                                                 :index=>{:name=>"index_camps_on_event_id"}
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.integer  "organization_id"
+    t.string   "name"
+    t.datetime "submission_deadline"
+    t.datetime "safety_deadline"
+    t.datetime "starts_at"
+    t.datetime "ends_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "grants", force: :cascade do |t|
@@ -172,10 +184,17 @@ ActiveRecord::Schema.define(version: 20170830102511) do
   end
 
   create_table "memberships", force: :cascade do |t|
-    t.datetime "created_at", :null=>false
-    t.datetime "updated_at", :null=>false
-    t.integer  "user_id",    :index=>{:name=>"index_memberships_on_user_id"}
-    t.integer  "camp_id",    :index=>{:name=>"index_memberships_on_camp_id"}
+    t.datetime "created_at",      :null=>false
+    t.datetime "updated_at",      :null=>false
+    t.integer  "user_id",         :index=>{:name=>"index_memberships_on_user_id"}
+    t.integer  "collective_id",   :index=>{:name=>"index_memberships_on_collective_id"}
+    t.string   "collective_type", :default=>"Camp"
+  end
+
+  create_table "organizations", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "people", force: :cascade do |t|

@@ -7,8 +7,12 @@ class User < ApplicationRecord
 
   has_many :tickets
   has_many :memberships
-  has_many :camps, through: :memberships
+  has_many :camps, through: :memberships, source: :collective, source_type: :Camp
+  has_many :organizations, through: :memberships, source: :collective, source_type: :Organization
   has_many :created_camps, class_name: :Camp
+  # TODO: see if this works to replace the query in users_controller.rb#me
+  has_many :collaborator_memberships, through: :created_camps, source: :memberships
+  has_many :collaborators, through: :collaborator_memberships, source: :user
 
   schema_validations whitelist: [:id, :created_at, :updated_at, :encrypted_password]
 
