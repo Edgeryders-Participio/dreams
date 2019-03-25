@@ -86,6 +86,8 @@ gem 'best_in_place', '~> 3.0.1'
 # Tag dreams
 gem 'acts-as-taggable-on', '~> 4.0'
 
+gem 'graphql', '1.8.13'
+
 group :production do
   # needed by herokus
   gem 'rails_12factor'
@@ -127,3 +129,5 @@ group :development do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', '~> 0.4.0', group: :doc
 end
+
+gem 'graphiql-rails', '1.5.0', group: :development
