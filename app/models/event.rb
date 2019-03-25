@@ -3,6 +3,8 @@ class Event < ActiveRecord::Base
   has_many :grants
   has_many :camps
 
+  has_many :participants, through: :camps, source: :users
+
   def self.current
     # TODO: make sure this actually works!
     # The intent here is to return the event in the database which is

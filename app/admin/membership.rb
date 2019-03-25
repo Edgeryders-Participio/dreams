@@ -2,6 +2,12 @@ ActiveAdmin.register Membership do
   actions :index, :show, :new, :create, :edit, :update
   permit_params :user_id, :collective_id, :collective_type
 
+  form do |f|
+    f.inputs
+    panel "hejsan" do
+    end
+  end
+
   # TODO: currently this doesn't quite work to create memberships the way we'd like
   # A first pass solution might be to have a dropdown of users by email
   # and a dropdown of all Camps and Organizations combined, so that you can choose

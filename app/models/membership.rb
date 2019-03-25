@@ -1,4 +1,6 @@
 class Membership < ApplicationRecord
+  enum collective_type: [ :Organization, :Camp ]
+  
   belongs_to :collective, polymorphic: true
   belongs_to :user
 
