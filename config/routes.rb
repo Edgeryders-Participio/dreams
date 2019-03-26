@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   }
 
   resources :organizations, only: :show
-  resources :events, only: :show do
+  resources :events, only: [:show, :list] do
     get :current, on: :collection
     get :future, on: :collection
     get :past, on: :collection

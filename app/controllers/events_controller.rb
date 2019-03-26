@@ -3,6 +3,10 @@ class EventsController < ApplicationController
   before_action :set_past_events, only: :past
   before_action :set_future_events, only: :future
 
+  def index
+    @events = Event.all.order(start_at: :desc)
+  end
+
   def show
     # TODO: We should provide an option on the events#show page to view
     # all past or future events, which will allow users to navigate to
