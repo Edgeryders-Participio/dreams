@@ -25,6 +25,8 @@ $(document).ready(function() {
   });
 
   $('.budgetprogressbar').budgetprogressbar();
+
+  Filterrific.init();
 });
 
 $(document).ready(function() {

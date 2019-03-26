@@ -75,18 +75,18 @@ p {
   }
 }
 
-.carousel-inner{
-  width:100%;
+.carousel-inner {
+  width: 100%;
   height: 400px;
 }
 
 .carousel-caption {
   max-width: 400px;
-  text-align:center;
+  text-align: center;
   top: 270px;
 }
 
-.camp-description{
+.camp-description {
   margin-top: 10px;
 }
 
@@ -94,4 +94,24 @@ p {
   background: white;
   color: red;
   padding-top: 40px;
+}
+
+table {
+  margin: 10px 0;
+  border-radius: 6px;
+  th {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: rgba(0, 0, 0, 0.8);
+    border-bottom: 1px solid #ddd !important;
+  }
+  tbody {
+    td {
+      border-top: 0 !important;
+    }
+    tr:nth-child(2) {
+      background: #f1f1f1;
+    }
+  }
 }

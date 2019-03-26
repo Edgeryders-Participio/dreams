@@ -243,6 +243,17 @@ Devise.setup do |config|
   config.omniauth :facebook, Rails.application.secrets.facebook_app_id,
     Rails.application.secrets.facebook_app_secret
 
+  # TODO
+  # read from xml
+  c = Rails.application.config.x.firestarter_settings # TODO ?
+  if c["saml_enabled"]
+    d = File.open(c['saml_idp_descriptor']) { |f| Nokogiri::XML(f) }
+    config.omniauth :saml, {
+                      issuer: c['saml_client_id'],
+                      idp_cert: d.at_xpath("//dsig:X509Certificate").content,
+                      idp_sso_target_url: d.at_css("*//SingleSignOnService").attributes['Location'].content
+                    }
+  end
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.

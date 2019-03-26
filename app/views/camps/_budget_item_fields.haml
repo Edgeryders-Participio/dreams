@@ -1,0 +1,17 @@
+.nested-fields.panel.panel-default.col-md-7{ style: 'float:' + I18n.t('lang_direction')}
+  .panel-body
+    = f.label :description
+    - if (@can_edit)
+      = f.text_field :description, class: 'form-control'
+    - else
+      = f.text_field :description, class: 'form-control', readonly: true
+    = f.label :amount
+    (#{app_setting("currency")})
+    - if (@can_edit)
+      = f.number_field :amount, class: 'form-control'
+    - else
+      = f.text_field :amount, class: 'form-control', readonly: true
+    
+    %br
+    - if (@can_edit)
+      = link_to_remove_association t("remove_budget_item"), f, class: 'remove_person fa fa-trash'

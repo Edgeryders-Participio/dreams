@@ -94,6 +94,16 @@ Make sure you change the username, password, token and event id
 ### Make sure all the env variables are set
 On heroku use - https://github.com/xavdid/heroku-config
 
+#### SAML integration
+
+Place your IDP descriptor in `./vendor/saml/idpssodescriptor.xml` or provide an
+alternative path in the `SAML_IDP_DESCRIPTOR` environment variable. 
+
+Other environment variables:
+  * `SAML_ENABLE=1` enable SAML and hide built-in registration
+  * `SAML_CLIENT_ID` client id provided to the IdP
+  * `SAML_HUMAN_NAME` name of IdP presented to user
+
 ### Creating initial database
 
 From command line run
