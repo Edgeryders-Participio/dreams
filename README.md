@@ -94,7 +94,7 @@ Make sure you change the username, password, token and event id
 ### Make sure all the env variables are set
 On heroku use - https://github.com/xavdid/heroku-config
 
-#### SAML integration
+#### Keycloak integration
 
 Place your IDP descriptor in `./vendor/saml/idpssodescriptor.xml` or provide an
 alternative path in the `SAML_IDP_DESCRIPTOR` environment variable. 

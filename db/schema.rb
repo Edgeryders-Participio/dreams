@@ -10,15 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190326140533) do
+ActiveRecord::Schema.define(version: 20190326162758) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace",     :index=>{:name=>"index_active_admin_comments_on_namespace"}
     t.text     "body"
     t.string   "resource_id",   :null=>false
     t.string   "resource_type", :null=>false, :index=>{:name=>"index_active_admin_comments_on_resource_type_and_resource_id", :with=>["resource_id"]}
-    t.string   "author_type",   :index=>{:name=>"index_active_admin_comments_on_author_type_and_author_id", :with=>["author_id"]}
     t.integer  "author_id"
+    t.string   "author_type",   :index=>{:name=>"index_active_admin_comments_on_author_type_and_author_id", :with=>["author_id"]}
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -175,8 +175,20 @@ ActiveRecord::Schema.define(version: 20190326140533) do
     t.datetime "updated_at"
     t.string   "attachment_file_name"
     t.string   "attachment_content_type"
-    t.integer  "attachment_file_size",    :limit=>8
+    t.integer  "attachment_file_size"
     t.datetime "attachment_updated_at"
+  end
+
+  create_table "log_entries", force: :cascade do |t|
+    t.datetime "created_at",  :null=>false
+    t.datetime "updated_at",  :null=>false
+    t.string   "topic"
+    t.string   "type"
+    t.integer  "user_id"
+    t.string   "user_name"
+    t.integer  "object_id"
+    t.string   "object_name"
+    t.string   "description"
   end
 
   create_table "memberships", force: :cascade do |t|
@@ -207,20 +219,12 @@ ActiveRecord::Schema.define(version: 20190326140533) do
     t.string "identifier"
   end
 
-  create_table "safety_items", force: :cascade do |t|
-    t.string   "headline"
-    t.string   "information"
-    t.integer  "camp_id",     :index=>{:name=>"index_safety_items_on_camp_id"}
-    t.datetime "created_at",  :null=>false
-    t.datetime "updated_at",  :null=>false
-  end
-
   create_table "taggings", force: :cascade do |t|
     t.integer  "tag_id",        :index=>{:name=>"index_taggings_on_tag_id"}
-    t.string   "taggable_type", :index=>{:name=>"index_taggings_on_taggable_type"}
     t.integer  "taggable_id",   :index=>{:name=>"index_taggings_on_taggable_id"}
-    t.string   "tagger_type"
+    t.string   "taggable_type", :index=>{:name=>"index_taggings_on_taggable_type"}
     t.integer  "tagger_id",     :index=>{:name=>"index_taggings_on_tagger_id"}
+    t.string   "tagger_type"
     t.string   "context",       :limit=>128, :index=>{:name=>"index_taggings_on_context"}
     t.datetime "created_at"
 
@@ -259,6 +263,8 @@ ActiveRecord::Schema.define(version: 20190326140533) do
     t.boolean  "guide",                  :default=>false
     t.boolean  "admin",                  :default=>false
     t.integer  "grants",                 :default=>10
+    t.string   "name"
+    t.string   "avatar"
   end
 
   create_table "versions", force: :cascade do |t|
