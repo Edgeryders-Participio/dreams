@@ -1,6 +1,6 @@
 module Types
   class CampType < Types::BaseObject
-  	field :id, ID, null: false
+    field :id, ID, null: false
     field :name, String, null: false
     field :subtitle, String, null: false
     field :contact_email, String, null: false
