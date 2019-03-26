@@ -1,8 +1,4 @@
 class EventsController < ApplicationController
-  before_action :set_current_id, only: :current
-  before_action :set_past_events, only: :past
-  before_action :set_future_events, only: :future
-
   def index
     @events = Event.all.order(start_at: :desc)
   end
@@ -29,22 +25,7 @@ class EventsController < ApplicationController
     render :index
   end
 
-  private
-
-  def set_current_id
-    raise "No events created!" unless Event.current
-    params[:id] = Event.current.id
-  end
-
-  def is_current?
-    @event.id == Event.current.id
-  end
-
-  def set_past_events
-    @events = Event.past
-  end
-
-  def set_future_events
-    @events = Event.future
+  def redirect_to_most_relevant
+    redirect_to Event.most_relevant
   end
 end

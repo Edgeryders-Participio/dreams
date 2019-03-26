@@ -8,6 +8,7 @@ class CampsController < ApplicationController
   before_action :ensure_admin_update!, only: [:update]
   before_action :ensure_grants!, only: [:update_grants]
   before_action :load_lang_detector, only: [:show, :index]
+  before_action :load_event
 
   def index
   end
@@ -111,6 +112,13 @@ class CampsController < ApplicationController
   end
 
   private
+
+  def load_event
+    @event = Event.find(params[:event_id])
+    if @event.nil?
+      redirect_to Event.most_relevant
+    end
+  end
 
   # TODO: We can't permit! attributes like this, because it means that anyone
   # can update anything about a camp in any way (including the id, etc); recipe for disaster!

@@ -5,11 +5,7 @@ class Event < ActiveRecord::Base
 
   has_many :participants, through: :camps, source: :users
 
-  def self.current
-    # TODO: make sure this actually works!
-    # The intent here is to return the event in the database which is
-    # a) starting soonest
-    # b) not over yet
+  def self.most_relevant
     where('ends_at > ?', Time.current).order(starts_at: :asc).first
   end
 

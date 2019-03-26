@@ -37,7 +37,7 @@
               end
             %>
             <% if user_signed_in? and !app_setting('disable_open_new_dream') and Lockdown.instance.allowed?('submit_dream') %>
-              <%= link_to t("register_creation_menu"), new_camp_path %>
+              <%= link_to t("register_creation_menu"), new_event_camp_path(@event) %>
             <% end %>
             <% if !user_signed_in? %>
                 <% if app_setting('saml_enabled') %>

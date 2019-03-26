@@ -4,7 +4,7 @@
 
 <% @can_edit = true %>
 
-<%= simple_form_for @camp, :html => {:dir => I18n.t(:html_direction), id: 'createDreamForm'} do |form| %>
+<%= simple_form_for([@event, @camp], :html => {:dir => I18n.t(:html_direction), id: 'createDreamForm'}) do |form| %>
   <div class="header-heading col-xs-12" style='float: <%= I18n.t(:lang_direction) %>'>
     <%= t("form_basics_headline") %>
   </div>

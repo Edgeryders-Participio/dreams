@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190325151245) do
+ActiveRecord::Schema.define(version: 20190325114929) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace",     :index=>{:name=>"index_active_admin_comments_on_namespace"}
@@ -47,36 +47,35 @@ ActiveRecord::Schema.define(version: 20190325151245) do
   end
 
   create_table "camps", force: :cascade do |t|
-    t.string   "name",                          :limit=>64, :null=>false
-    t.text     "subtitle",                      :limit=>255, :null=>false
-    t.string   "contact_email",                 :limit=>64
-    t.string   "contact_name",                  :limit=>64, :null=>false
-    t.string   "contact_phone",                 :limit=>64
-    t.text     "description",                   :limit=>4096
-    t.text     "electricity",                   :limit=>255
-    t.text     "light",                         :limit=>512
-    t.text     "fire",                          :limit=>512
-    t.text     "noise",                         :limit=>255
-    t.text     "nature",                        :limit=>255
-    t.text     "moop",                          :limit=>512
-    t.text     "plan",                          :limit=>1024
-    t.text     "cocreation",                    :limit=>1024
-    t.text     "neighbors",                     :limit=>512
-    t.text     "budgetplan",                    :limit=>1024
+    t.string   "name",                                                     :limit=>64, :null=>false
+    t.text     "subtitle",                                                 :limit=>255, :null=>false
+    t.string   "contact_email",                                            :limit=>64
+    t.string   "contact_name",                                             :limit=>64, :null=>false
+    t.string   "contact_phone",                                            :limit=>64
+    t.text     "description",                                              :limit=>4096
+    t.text     "electricity",                                              :limit=>255
+    t.text     "light",                                                    :limit=>512
+    t.text     "fire",                                                     :limit=>512
+    t.text     "noise",                                                    :limit=>255
+    t.text     "nature",                                                   :limit=>255
+    t.text     "moop",                                                     :limit=>512
+    t.text     "plan",                                                     :limit=>1024
+    t.text     "cocreation",                                               :limit=>1024
+    t.text     "neighbors",                                                :limit=>512
+    t.text     "budgetplan",                                               :limit=>1024
     t.integer  "minbudget"
     t.integer  "maxbudget"
     t.boolean  "seeking_members"
-    t.integer  "user_id",                       :index=>{:name=>"index_camps_on_user_id"}
-    t.boolean  "grantingtoggle",                :default=>false, :null=>false
+    t.integer  "user_id",                                                  :index=>{:name=>"index_camps_on_user_id"}
+    t.boolean  "grantingtoggle",                                           :default=>false, :null=>false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "minfunded",                     :default=>false
-    t.boolean  "fullyfunded",                   :default=>false
-    t.text     "recycling",                     :limit=>512
+    t.boolean  "minfunded",                                                :default=>false
+    t.boolean  "fullyfunded",                                              :default=>false
+    t.text     "recycling",                                                :limit=>512
     t.integer  "minbudget_realcurrency"
     t.integer  "maxbudget_realcurrency"
     t.integer  "safetybag_crewsize"
-<<<<<<< HEAD
     t.string   "safetybag_plan",                                           :limit=>4096
     t.string   "safetybag_builder",                                        :limit=>64
     t.string   "safetybag_safetyer",                                       :limit=>64
@@ -171,34 +170,6 @@ ActiveRecord::Schema.define(version: 20190325151245) do
     t.datetime "ends_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-=======
-    t.string   "safetybag_plan",                :limit=>4096
-    t.string   "safetybag_builder",             :limit=>64
-    t.string   "safetybag_safetyer",            :limit=>64
-    t.string   "safetybag_mooper",              :limit=>64
-    t.string   "safetybag_materials",           :limit=>4096
-    t.string   "safetybag_work_in_height",      :limit=>4096
-    t.string   "safetybag_tools",               :limit=>4096
-    t.string   "safetybag_grounding",           :limit=>4096
-    t.string   "safetybag_safety",              :limit=>4096
-    t.string   "safetybag_electricity",         :limit=>4096
-    t.string   "safetybag_daily_routine",       :limit=>4096
-    t.string   "safetybag_other_comments",      :limit=>4096
-    t.string   "safetybag_firstMemberName",     :limit=>64
-    t.string   "safetybag_firstMemberEmail",    :limit=>64
-    t.string   "safetybag_secondMemberName",    :limit=>64
-    t.string   "safetybag_secondMemberEmail",   :limit=>64
-    t.boolean  "active",                        :default=>true
-    t.string   "about_the_artist",              :limit=>1024
-    t.string   "website",                       :limit=>512
-    t.boolean  "is_public",                     :default=>true, :null=>false
-    t.string   "google_drive_folder_path",      :limit=>512
-    t.string   "google_drive_budget_file_path", :limit=>512
-    t.string   "en_name",                       :limit=>64
-    t.string   "en_subtitle",                   :limit=>255
-    t.string   "dream_point_of_contact_email",  :limit=>64
-    t.string   "safety_file_comments",          :limit=>4096
->>>>>>> origin/master
   end
 
   create_table "grants", force: :cascade do |t|
@@ -232,6 +203,27 @@ ActiveRecord::Schema.define(version: 20190325151245) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "people", force: :cascade do |t|
+    t.string   "name"
+    t.string   "email"
+    t.string   "phone_number"
+    t.string   "background"
+    t.datetime "created_at",          :null=>false
+    t.datetime "updated_at",          :null=>false
+    t.integer  "camp_id",             :null=>false, :index=>{:name=>"index_people_on_camp_id"}
+    t.boolean  "has_ticket"
+    t.boolean  "needs_early_arrival"
+  end
+
+  create_table "people_roles", force: :cascade do |t|
+    t.integer "person_id", :index=>{:name=>"index_people_roles_on_person_id"}
+    t.integer "role_id",   :index=>{:name=>"index_people_roles_on_role_id"}
+  end
+
+  create_table "roles", force: :cascade do |t|
+    t.string "identifier"
   end
 
   create_table "taggings", force: :cascade do |t|

@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
-  root 'events#current'
+  root 'events#redirect_to_most_relevant'
 
   devise_for :users,
     controllers: { 
@@ -15,15 +15,15 @@ Rails.application.routes.draw do
     get :current, on: :collection
     get :future, on: :collection
     get :past, on: :collection
-  end
 
-  resources :camps, :path => 'dreams' do
-    resources :images
-    post 'join', on: :member
-    post 'archive', on: :member
-    patch 'toggle_granting', on: :member
-    patch 'update_grants', on: :member
-    patch 'tag', on: :member
+    resources :camps, :path => 'dreams' do
+      resources :images
+      post 'join', on: :member
+      post 'archive', on: :member
+      patch 'toggle_granting', on: :member
+      patch 'update_grants', on: :member
+      patch 'tag', on: :member
+    end
   end
 
   get '/pages/:page' => 'pages#show'

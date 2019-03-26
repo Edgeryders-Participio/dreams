@@ -17,9 +17,12 @@ class User < ApplicationRecord
   schema_validations whitelist: [:id, :created_at, :updated_at, :encrypted_password]
 
   def self.from_omniauth(auth)
-    where(provider: auth.provider, uid: auth.uid).first_or_create! do |user|
+    user = where(provider: auth.provider, uid: auth.uid).first_or_create! do |user|
       user.email = auth.uid #.info.email facebook?
       user.password = Devise.friendly_token[0,20]
     end
+
+    # Math auth roles to event_auth_identifier
+    # for each match create a new grant wallet for that event, if it doesn't already exist
   end
 end
