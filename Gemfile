@@ -31,7 +31,7 @@ gem 'omniauth-saml'
 # gem 'unicorn'
 
 # Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
+# gem 'capistragem 'graphiql-rails', '1.5.0', group: :developmentno-rails', group: :development
 
 # Use HAML for views
 gem 'haml'
@@ -86,7 +86,9 @@ gem 'best_in_place', '~> 3.0.1'
 # Tag dreams
 gem 'acts-as-taggable-on', '~> 4.0'
 
+# GraphQL API
 gem 'graphql', '1.8.13'
+gem 'graphiql-rails', '1.5.0', group: :development
 
 group :production do
   # needed by herokus
@@ -130,4 +132,3 @@ group :development do
   gem 'sdoc', '~> 0.4.0', group: :doc
 end
 
-gem 'graphiql-rails', '1.5.0', group: :development
