@@ -28,7 +28,7 @@
       color: #2a2a2a;
       border-color: #a8a8a8;
 
-      .name { 
+      .name {
         text-decoration: underline;
       }
     }
@@ -38,7 +38,7 @@
       font-weight: normal;
       color: $c-pinky;
       margin: 0.5em 0.5em;
-      }
+    }
   }
 
   .panel-info > .panel-heading {
@@ -56,7 +56,6 @@
     margin: 0;
     padding: 0;
   }
-
 }
 
 $main-image-height: 550px;
@@ -109,7 +108,7 @@ $main-image-height: 550px;
       .budget-box {
         margin-left: 24px;
         padding-left: 24px;
-        border-left: 1px solid rgba(255,255,255,0.3);
+        border-left: 1px solid rgba(255, 255, 255, 0.3);
       }
 
       h3 {
@@ -129,7 +128,7 @@ $main-image-height: 550px;
       height: 30px;
       opacity: 0.3;
       background-color: white;
-      margin: 0 .6em;
+      margin: 0 0.6em;
     }
 
     p {
@@ -184,31 +183,30 @@ $main-image-height: 550px;
   .donate-value {
     display: inline-block;
     width: 70px;
-    margin: 0 .5em;
+    margin: 0 0.5em;
   }
 
-  .coins-left  {
+  .coins-left {
     line-height: 2em;
   }
 
   .donate-now-button {
     background: $c-donate-color;
-    width:100%;
+    width: 100%;
 
     &:active {
-        background: darken($c-donate-color, 15%) !important;
-      }
+      background: darken($c-donate-color, 15%) !important;
+    }
 
-      &:hover {
-        background: darken($c-donate-color, 10%) !important;
-      }
+    &:hover {
+      background: darken($c-donate-color, 10%) !important;
+    }
 
-      &:focus {
-        background: darken($c-donate-color, 10%) !important;
-      }
+    &:focus {
+      background: darken($c-donate-color, 10%) !important;
+    }
   }
 }
-
 
 .top_message {
   padding: 10px;
@@ -268,9 +266,9 @@ $main-image-height: 550px;
   top: 50%;
   height: 50%;
   width: auto;
-  -webkit-transform: translate(-50%,-50%);
-      -ms-transform: translate(-50%,-50%);
-          transform: translate(-50%,-50%);
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
 .camp-upload_image_form {
@@ -283,12 +281,12 @@ $main-image-height: 550px;
 }
 
 div label input {
-   margin-right:100px;
+  margin-right: 100px;
 }
 
 .granting-label {
-    display:block;
-    margin-top: 10px;
+  display: block;
+  margin-top: 10px;
 }
 
 .creation-info {
@@ -296,9 +294,8 @@ div label input {
 }
 
 body {
-    font-family:sans-serif;
+  font-family: sans-serif;
 }
-
 
 @media (min-width: 992px) {
   .camp-index img {
@@ -333,12 +330,10 @@ body {
   }
 
   .dream_main_text {
-
     div.center-dream {
       width: 94%;
     }
   }
-
 }
 
 @media (max-width: 540px) {
@@ -357,7 +352,6 @@ body {
     }
   }
 }
-
 
 #footer-bar {
   position: fixed;
@@ -391,7 +385,9 @@ body {
   right: 3em;
   width: auto;
   padding: 20px;
-  &:first-letter { text-transform: uppercase; }
+  &:first-letter {
+    text-transform: uppercase;
+  }
 }
 
 .field-description {
@@ -417,6 +413,10 @@ body {
   }
 }
 
+#add-new-budget-item {
+  color: white !important;
+  text-decoration: none !important;
+}
 
 .pink-div {
   color: $c_pinky;
@@ -432,7 +432,7 @@ body {
     border-top-right-radius: 0;
     padding: 6px 12px;
     border: 1px solid #ccc;
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   }
 }

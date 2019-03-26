@@ -315,7 +315,7 @@
         = render 'budget_item_fields', :f => budget_item, :camp_id => @camp.id
     
     - if @can_edit
-    .row.links.col-xs-12
-      = link_to_add_association t('add_new_budget_item'), form, :budget_items, render_options: { locals: { camp_id: @camp.id } }, class: 'btn btn-success', id: 'add-new-person'
+      .row.links.col-xs-12
+        = link_to_add_association t('add_new_budget_item'), form, :budget_items, render_options: { locals: { camp_id: @camp.id } }, class: 'btn btn-success', id: 'add-new-budget-item'
         %br
         %br
