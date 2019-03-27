@@ -1,6 +1,7 @@
 <% content_for(:head) do %>
   <title><%= t :browser_title_tag %></title>
   <%= javascript_include_tag 'blueimp_script' %>
+  <%= javascript_include_tag 'loomio-embed.min' %>
   <meta property="og:title" content="<%= t :browser_title_tag %>" />
   <meta property="og:description" content="<%= t :main_sharing_description %>" />
   <meta property="og:image" content="<%= ENV['APP_URL'] %>assets/coverphoto.png" />

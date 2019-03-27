@@ -17,8 +17,8 @@ ActiveRecord::Schema.define(version: 20190326162758) do
     t.text     "body"
     t.string   "resource_id",   :null=>false
     t.string   "resource_type", :null=>false, :index=>{:name=>"index_active_admin_comments_on_resource_type_and_resource_id", :with=>["resource_id"]}
-    t.integer  "author_id"
     t.string   "author_type",   :index=>{:name=>"index_active_admin_comments_on_author_type_and_author_id", :with=>["author_id"]}
+    t.integer  "author_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -158,6 +158,8 @@ ActiveRecord::Schema.define(version: 20190326162758) do
     t.string   "en_subtitle",                                              :limit=>255
     t.string   "dream_point_of_contact_email",                             :limit=>64
     t.string   "safety_file_comments",                                     :limit=>4096
+    t.string   "loomio_thread_id"
+    t.string   "loomio_thread_key"
   end
 
   create_table "grants", force: :cascade do |t|
@@ -175,20 +177,22 @@ ActiveRecord::Schema.define(version: 20190326162758) do
     t.datetime "updated_at"
     t.string   "attachment_file_name"
     t.string   "attachment_content_type"
-    t.integer  "attachment_file_size"
+    t.integer  "attachment_file_size",    :limit=>8
     t.datetime "attachment_updated_at"
   end
 
   create_table "log_entries", force: :cascade do |t|
-    t.datetime "created_at",  :null=>false
-    t.datetime "updated_at",  :null=>false
+    t.datetime "created_at",      :null=>false
+    t.datetime "updated_at",      :null=>false
     t.string   "topic"
-    t.string   "type"
+    t.string   "entry_type"
     t.integer  "user_id"
+    t.string   "user_email"
     t.string   "user_name"
     t.integer  "object_id"
     t.string   "object_name"
     t.string   "description"
+    t.boolean  "loomio_consumed", :default=>false
   end
 
   create_table "memberships", force: :cascade do |t|
@@ -221,10 +225,10 @@ ActiveRecord::Schema.define(version: 20190326162758) do
 
   create_table "taggings", force: :cascade do |t|
     t.integer  "tag_id",        :index=>{:name=>"index_taggings_on_tag_id"}
-    t.integer  "taggable_id",   :index=>{:name=>"index_taggings_on_taggable_id"}
     t.string   "taggable_type", :index=>{:name=>"index_taggings_on_taggable_type"}
-    t.integer  "tagger_id",     :index=>{:name=>"index_taggings_on_tagger_id"}
+    t.integer  "taggable_id",   :index=>{:name=>"index_taggings_on_taggable_id"}
     t.string   "tagger_type"
+    t.integer  "tagger_id",     :index=>{:name=>"index_taggings_on_tagger_id"}
     t.string   "context",       :limit=>128, :index=>{:name=>"index_taggings_on_context"}
     t.datetime "created_at"
 

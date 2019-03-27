@@ -209,7 +209,12 @@
                 <%= button_to t(:add_my_name), :join_camp, {class: 'btn btn-success button join-dream-button'} %>
             <% end %>
         <% end %>
-        
+
+        <% if @camp.thread_key %>
+            <div loomio-thread="<%= @camp.thread_key %>"></div>
+            <%= javascript_include_tag 'loomio' %>
+        <% end %>
+
         <!-- Private user data  -->
         <% if app_setting("safetybag") &&
             (current_user && current_user.guide || (@camp.creator == current_user)) %>
