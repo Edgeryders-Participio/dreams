@@ -21,6 +21,8 @@ class User < ApplicationRecord
     u.name = auth.extra.raw_info.all["urn:oid:2.5.4.42"][0]
     # Last name : urn:oid:2.5.4.4
     # Roles: raw_info.all["Role"] : array[string]
+    # avatars: get https://talk.theborderland.se/api/v1/profile/{username}
+    # either loomio picture or gravatar
     u.save!
     u
   end
