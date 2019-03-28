@@ -87,6 +87,8 @@ ActiveRecord::Schema.define(version: 20190328104245) do
     t.string   "dream_point_of_contact_email",                             :limit=>64
     t.string   "safety_file_comments",                                     :limit=>4096
     t.integer  "event_id",                                                 :index=>{:name=>"index_camps_on_event_id"}
+    t.string   "loomio_thread_id"
+    t.string   "loomio_thread_key"
   end
 
   create_table "events", force: :cascade do |t|
