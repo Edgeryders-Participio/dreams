@@ -20,7 +20,9 @@ class Camp < ApplicationRecord
   has_many :favorite_users, through: :favorites, source: :user
   has_many :images #, :dependent => :destroy
   has_many :safety_sketches
-  has_many :grants
+
+  has_many :all_grants, class_name: "Grant"
+  
   has_many :budget_items 
   has_many :safety_items 
 

@@ -41,15 +41,9 @@ class CampsController < ApplicationController
   end
 
   def update_grants
-    @camp.grants.build(user: current_user, amount: granted)
-    @camp.assign_attributes(
-      minfunded:   (@camp.grants_received + granted) >= @camp.minbudget,
-      fullyfunded: (@camp.grants_received + granted) >= @camp.maxbudget
-    )
-
-    if @camp.save
-      current_user.update(grants: current_user.grants - granted)
-      flash[:notice] = t(:thanks_for_sending, grants: granted)
+    actually_granted, ok = current_user.wallet_for(@event).grant_to(@camp, granted)
+    if ok
+      flash[:notice] = t(:thanks_for_sending, grants: actually_granted)
     else
       flash[:error] = t(:errors_str, message: @camp.errors.full_messages.uniq.join(', '))
     end
@@ -174,8 +168,10 @@ class CampsController < ApplicationController
   end
 
   def ensure_grants!
+    grants_left = current_user.grants_left_for(@event)
+
     assert(@camp.maxbudget, :dream_need_to_have_max_budget) ||
-    assert(current_user.grants >= granted, :security_more_grants, granted: granted, current_user_grants: current_user.grants) ||
+    assert(grants_left >= granted, :security_more_grants, granted: granted, current_user_grants: grants_left) ||
     assert(granted > 0, :cant_send_less_then_one) ||
     assert(
       current_user.admin || (@camp.grants.where(user: current_user).sum(:amount) + granted <= app_setting('max_grants_per_user_per_dream')),

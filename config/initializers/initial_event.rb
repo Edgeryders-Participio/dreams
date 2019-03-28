@@ -21,3 +21,14 @@
 
 # Assign all existing events to the newly created organization
 # Assign all admin users to the newly created organization, by creating memberships for them
+
+# if defined?(Event) && defined?(Organization)
+#     return unless Event.all.any? && Organization.all.any?
+# 
+#     lockdown_data = Rails.application.config_for(:lockdown)
+#     name        = ENV['INITIAL_EVENT_NAME'] || ""
+#     starts_at   = ENV['INITIAL_EVENT_STARTS_AT'] || ""
+#     ends_at     = ENV['INITIAL_EVENT_ENDS_AT'] || ""
+# 
+#     raise "" if name.empty? or start_at.empty? or end
+# end

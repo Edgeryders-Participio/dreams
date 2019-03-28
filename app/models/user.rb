@@ -12,6 +12,8 @@ class User < ApplicationRecord
   has_many :favorites
   has_many :favorite_camps, through: :favorites, source: :camp
   has_many :created_camps, class_name: :Camp
+
+  has_many :grant_wallets
   
   # TODO: see if this works to replace the query in users_controller.rb#me
   has_many :collaborator_memberships, through: :created_camps, source: :memberships
@@ -21,9 +23,9 @@ class User < ApplicationRecord
 
   def self.from_omniauth(auth)
     u = where(provider: auth.provider, uid: auth.uid).first_or_create! do |u|
-      user.email = auth.uid # .info.email TODO for supporting other things than keycloak
-      user.password = Devise.friendly_token[0,20]
-
+      u.email = auth.uid # .info.email TODO for supporting other things than keycloak
+      u.password = Devise.friendly_token[0,20]
+      puts ">>>>>>>>>>>>>>>>", auth.extra.raw_info.all
       # Omniauth doesn't know the keycloak schema
       u.name = auth.extra.raw_info.all["urn:oid:2.5.4.42"][0]
       # Last name : urn:oid:2.5.4.4
@@ -31,5 +33,15 @@ class User < ApplicationRecord
       # avatars: get https://talk.theborderland.se/api/v1/profile/{username}
       # either loomio picture or gravatar
     end
+  end
+
+  def wallet_for(event)
+    grant_wallets.find_or_create_by(event: event, user: self) do |w|
+      w.grants_left = ENV['DEFAULT_HEARTS'] || 10
+    end
+  end
+
+  def grants_left_for(event)
+    wallet_for(event).grants_left
   end
 end
