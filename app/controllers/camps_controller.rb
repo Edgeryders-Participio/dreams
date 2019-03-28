@@ -15,6 +15,7 @@ class CampsController < ApplicationController
 
   def new
     @camp = Camp.new
+    @camp.event = @event
   end
 
   def edit
@@ -129,7 +130,7 @@ class CampsController < ApplicationController
   private
 
   def load_event
-    @event = Event.find(params[:event_id])
+    @event = Event.find_by(slug: params[:event_slug])
     if @event.nil?
       redirect_to Event.most_relevant
     end

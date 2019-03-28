@@ -43,7 +43,7 @@
             <%=t :creation_info_headline %>
         </h2>
         <div class="row">
-            <%= link_to t(:back_to_dream), event_camp_path(@camp.event, @camp), class: "btn btn-info camp-button" %>
+            <%= link_to t(:back_to_dream), event_camp_path(event_slug: @event.slug, id: @camp.id), class: "btn btn-info camp-button" %>
         </div>
     </div>
 </div>

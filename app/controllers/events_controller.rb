@@ -7,7 +7,8 @@ class EventsController < ApplicationController
     # TODO: We should provide an option on the events#show page to view
     # all past or future events, which will allow users to navigate to
     # events which are not the current one
-    @event = Event.find(params[:id])
+    @event = Event.find_by(slug: params[:slug])
+    redirect_to events_path if @event.nil?
   end
 
   def current
@@ -26,6 +27,6 @@ class EventsController < ApplicationController
   end
 
   def redirect_to_most_relevant
-    redirect_to Event.most_relevant
+    redirect_to event_camps_path(event_slug: Event.most_relevant.slug)
   end
 end

@@ -47,7 +47,7 @@
         <b><%=t :dreams_you_help_make %></b>:
         <% Grant.where(user: current_user).includes(camp: [:event]).each do |grant| %>
           <p>
-            <%= link_to grant.camp.name, event_camp_path(grant.camp.event, grant.camp) %><br>
+            <%= link_to grant.camp.name, event_camp_path(event_slug: grant.camp.event.slug, id: grant.camp.id) %><br>
             <span class="glyphicons glyphicons-coins"></span>
             <%= grant.created_at.strftime("%d/%m/%Y") %>
             <% grant.amount.times do |i| %>
