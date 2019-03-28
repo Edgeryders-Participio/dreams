@@ -22,10 +22,11 @@ Rails.application.routes.draw do
   get '/howcanihelp' => 'howcanihelp#index'
 
   constraints(slug: Event::SLUG_FORMAT, id: /\d+/) do
-    resources :events, param: :slug, only: [:show, :index], path: "" do
-      get :current, on: :collection
-      get :future, on: :collection
-      get :past, on: :collection
+    get 'events', to: 'events#index', as: 'events'
+    resources :events, param: :slug, only: [:show], path: "" do
+      get 'current', on: :collection
+      get 'future', on: :collection
+      get 'past', on: :collection
   
       get '', to: 'camps#index', as: 'camps'
       resources :camps, path: 'dreams', except: [:index] do

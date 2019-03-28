@@ -141,8 +141,9 @@ class CampsController < ApplicationController
 
   def load_event
     @event = Event.find_by(slug: params[:event_slug])
+    @event ||= Event.most_relevant
     if @event.nil?
-      redirect_to Event.most_relevant
+      redirect_to events_path 
     end
   end
 

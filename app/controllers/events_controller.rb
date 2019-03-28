@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
   def index
-    @events = Event.all.order(start_at: :desc)
+    @events = Event.all.order(starts_at: :desc)
   end
 
   def show
@@ -27,6 +27,11 @@ class EventsController < ApplicationController
   end
 
   def redirect_to_most_relevant
-    redirect_to event_camps_path(event_slug: Event.most_relevant.slug)
+    e = Event.most_relevant
+    unless e.nil?
+      redirect_to event_camps_path(event_slug: e.slug)
+    else
+        redirect_to events_path
+    end
   end
 end
