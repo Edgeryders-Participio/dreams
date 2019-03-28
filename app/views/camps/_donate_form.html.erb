@@ -1,0 +1,40 @@
+  <div class="modal" id="donateModal" tabindex="-1" role="dialog" aria-labelledby="donateModalLabel" dir=<%=t :html_direction %>>
+  <% if Rails.configuration.x.firestarter_settings["granting_active"] and current_user and @camp.minbudget %>
+    <%= form_tag({controller: "camps", action: "update_grants"}, method: "patch", id:"donateForm") do %>
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" style='float: <%=t :reverse_direction %>' data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="donateModalLabel"><%=t :donate_title %></h4>
+          </div>
+          <div class="modal-body">
+            <p><%=t :donate_content %></p>
+            <div>
+                <span>
+                    <div class='hearts'>
+                        <span class='heart' id='heart1' data-animated-heart='<%= asset_path('hearts/heart_01.png')%>'></span>
+                        <span class='heart' id='heart2' data-animated-heart='<%= asset_path('hearts/heart_02.png')%>'></span>
+                        <span class='heart' id='heart3' data-animated-heart='<%= asset_path('hearts/heart_03.png')%>'></span>
+                        <span class='heart' id='heart4' data-animated-heart='<%= asset_path('hearts/heart_04.png')%>'></span>
+                        <span class='heart' id='heart5' data-animated-heart='<%= asset_path('hearts/heart_05.png')%>'></span>
+                    </div>
+                    <b> <%=t :donate_text %>
+                      <%= number_field_tag 'grants', nil, in: 0..current_user.grants, step: 1, value: 1, class:'donate-value form-control' %>
+                      <%=t :coins_text %>
+
+                     </b>
+                </span>
+              <span class='coins-left' style='float: <%=t :reverse_direction %>'><b><%=t :coins_left %> <%= current_user.grants %></b></span>
+              </p>
+            </div>
+            <% if current_user and current_user.grants > 0 %>
+              <%= submit_tag t(:i_gift_thee_grants), :class => "btn btn-success donate-now-button" %>
+            <% else %>
+              <%= submit_tag t(:i_gift_thee_grants_diabled), :class => "btn btn-success donate-now-button" , :disabled => true%>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>

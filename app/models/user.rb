@@ -27,7 +27,7 @@ class User < ApplicationRecord
       u.password = Devise.friendly_token[0,20]
       puts ">>>>>>>>>>>>>>>>", auth.extra.raw_info.all
       # Omniauth doesn't know the keycloak schema
-      u.name = auth.extra.raw_info.all["urn:oid:2.5.4.42"][0]
+      u.name = auth.extra.raw_info.all.fetch("urn:oid:2.5.4.42", []).fetch(0, "")
       # Last name : urn:oid:2.5.4.4
       # Roles: raw_info.all["Role"] : array[string]
       # avatars: get https://talk.theborderland.se/api/v1/profile/{username}

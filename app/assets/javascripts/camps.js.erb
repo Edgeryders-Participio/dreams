@@ -1,0 +1,183 @@
+$(document).ready(function() {
+  $("#responsibles a.add_fields").
+    data("association-insertion-position", 'before').
+    data("association-insertion-node", 'this');
+
+   $('#responsibles').on('cocoon:after-insert',
+    function() {
+     $(".project-tag-fields a.add_fields").
+         data("association-insertion-position", 'before').
+         data("association-insertion-node", 'this');
+     $('.responsible-fields').on('cocoon:after-insert',
+          function() {
+            $(this).children(".responsible_from_list").remove();
+            $(this).children("a.add_fields").hide();
+          });
+    });
+
+   $('#responsibles').bind('cocoon:before-insert', function(e,el) {
+    el.fadeIn('slow');
+  });
+
+   $('#responsibles').bind('cocoon:before-remove', function(e, el) {
+    $(this).data('remove-timeout', 1000);
+    el.fadeOut('slow');
+  })
+
+  $('.budgetprogressbar').budgetprogressbar();
+
+  Filterrific.init();
+
+  function getAuthenticityToken(el) {
+    return $('input[name=authenticity_token]', $(el).closest('form')).val()
+  }
+
+  function getUrl(el) {
+    return $(el).closest('form').attr('action');
+  }
+
+  function refreshTags(data) {
+    $('#tag-container').empty();
+    for(var tag in data) {
+      $('#tag-container').append(
+          '<div class="tag-item">'
+          + data[tag].name
+          + '<span class="tag-remove" data-tag="'
+          + data[tag].name
+          + '">x</span>'
+          + '</div>'
+      );
+      $('.tag-remove').click(removeTag);
+    }
+  }
+
+  function removeTag(e, el) {
+    var url = getUrl(e.target);
+    var tag = $(e.target).data('tag');
+    var token = getAuthenticityToken(e.target);
+
+    $.ajax({
+      url: url,
+      type: 'POST',
+      data: {method:'_patch', 'camp[tag]': tag, authenticity_token:token},
+      success: function(data) {
+        refreshTags(data);
+      }
+    })
+  }
+
+  function addTags(e, el) {
+    var url = getUrl(e.target);
+    var tags = $("#camp_tag_list").val();
+    var token = getAuthenticityToken(e.target);
+
+    e.preventDefault();
+
+    $.ajax({
+      url: url,
+      type: 'POST',
+      data: {method:'_patch', 'camp[tag_list]': tags, authenticity_token:token},
+      success: function(data) {
+        refreshTags(data);
+      }
+    });
+
+    return false;
+  }
+
+  $('.tag-remove').click(removeTag);
+  $('#tags-add').click(addTags);
+
+ });
+
+ $(document).ready(function() {
+  $(".best_in_place").best_in_place();
+  var TOTAL_NUMBER_OF_HEARTS = 10; //TODO - this should be set somewhere else - we support 10 hearts at the moment
+  var availableHearts = parseInt($('#grants').attr('max'));
+
+  var defaultHeartSize = 72;
+  // var hearts = $('.heart');
+  // for(var i=0;i<(TOTAL_NUMBER_OF_HEARTS-availableHearts);i++) {
+  //   var heart = $(hearts[i]);
+  //   heart.attr('disabled','disabled');
+  //   var animatedHeartImg = heart.data('animated-heart');
+  //   var heartAsImage = $('<img>').attr('src',animatedHeartImg).attr('width',defaultHeartSize+'px').attr('height',defaultHeartSize+'px');
+  //   heart.replaceWith(heartAsImage);
+  //   heartAsImage.addClass('disabledHeart');
+  // }
+
+   //Allow hearts to be set from input and from clicking on them
+  function updateHeartsCount() {
+    var heartsCount = $('.heartSelected').length;
+    if($('#grants').val() != heartsCount) {
+      $('#grants').val(heartsCount);
+    }
+  };
+
+   $('.heart').click(function(e) {
+    $(e.target).toggleClass('heartSelected');
+    updateHeartsCount();
+  });
+
+   $('#grants').on('input', function(e) { 
+    var newHeartsCount = $(e.target).val();
+    var currentHeartsCount = $('.heartSelected').length;
+    //Turn off all and reselect
+    $('.heartSelected').toggleClass('heartSelected');
+    var hearts = $('.heart');
+    for(var i=0;i<newHeartsCount;i++) {
+      $(hearts[i]).toggleClass('heartSelected');
+    }
+
+   });
+
+   // On donate - Animate hearts
+  $('.donate-now-button').click(function(){
+    $('.donate-now-button').prop('disabled', true);
+    $('.donate-now-button').css('cursor', 'wait');
+    $('#donateModal').css('cursor', 'wait');
+    var heartsToHandle = $('.heartSelected');
+    animationCount = heartsToHandle.length;
+    var increaseBy = 1;
+    var defaultSpeed = 100;
+    $('.heartSelected').each(function(){
+      var heartImage = "<%= asset_path('hearts/heart_default_hover.png') %>";
+      var animatedHeartImg = $(this).data('animated-heart');
+      $heartAsImage = $('<img>').attr('src',heartImage).attr('width',defaultHeartSize+'px').attr('height',defaultHeartSize+'px');
+        $(this).replaceWith($heartAsImage);
+
+       var animateUp = {
+        height: ($heartAsImage.height()+increaseBy),
+        width: ($heartAsImage.width()+increaseBy)
+      };
+      var animateDown = {
+        height: ($heartAsImage.height()-increaseBy),
+        width: ($heartAsImage.width()-increaseBy)
+      };
+
+       $heartAsImage
+      .animate(animateUp,defaultSpeed)
+      .animate(animateDown,defaultSpeed)
+      .animate(animateUp,defaultSpeed)
+      .animate(animateDown,defaultSpeed)
+      .animate(animateUp,defaultSpeed,"linear", function() {
+        var heartSize = defaultHeartSize + increaseBy;
+        $heartAsImageAnimated = $('<img>').attr('src',animatedHeartImg).attr('width',heartSize+'px').attr('height',heartSize+'px');
+        $(this).replaceWith($heartAsImageAnimated);
+        $heartAsImageAnimated.animate({
+          height: (heartSize + increaseBy),
+          width: (heartSize + increaseBy)
+        },defaultSpeed*2, function() {
+          $(this).animate({
+            height: (heartSize),
+            width: (heartSize),
+          },defaultSpeed*2,function() {
+            if (!--animationCount) {
+              $('#donateForm').submit();
+            }
+          });
+        });
+      })
+    });
+  });
+});

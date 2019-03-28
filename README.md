@@ -104,6 +104,16 @@ Other environment variables:
   * `SAML_CLIENT_ID` client id provided to the IdP
   * `SAML_HUMAN_NAME` name of IdP presented to user
 
+#### Loomio integration
+
+Dreams can post updates to a Loomio group, to enable it set
+  * `LOOMIO_USER`
+  * `LOOMIO_PASSWORD`
+  * `LOOMIO_GROUP_ID` id of group to post to
+  * `LOOMIO_BASE_URL` protocol and hostname of loomio instance
+
+Then run the bot as its own process with `rails runner lib/loomio/loomio_bot.rb`.
+
 ### Creating initial database
 
 From command line run

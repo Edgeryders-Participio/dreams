@@ -137,6 +137,20 @@ ActiveRecord::Schema.define(version: 20190327152450) do
     t.datetime "attachment_updated_at"
   end
 
+  create_table "log_entries", force: :cascade do |t|
+    t.datetime "created_at",      :null=>false
+    t.datetime "updated_at",      :null=>false
+    t.string   "topic"
+    t.string   "entry_type"
+    t.integer  "user_id"
+    t.string   "user_email"
+    t.string   "user_name"
+    t.integer  "object_id"
+    t.string   "object_type"
+    t.string   "description"
+    t.boolean  "loomio_consumed", :default=>false
+  end
+
   create_table "memberships", force: :cascade do |t|
     t.datetime "created_at",      :null=>false
     t.datetime "updated_at",      :null=>false
@@ -170,25 +184,6 @@ ActiveRecord::Schema.define(version: 20190327152450) do
 
   create_table "roles", force: :cascade do |t|
     t.string "identifier"
-  end
-
-  create_table "safety_items", force: :cascade do |t|
-    t.string   "headline"
-    t.string   "information"
-    t.integer  "camp_id",     :index=>{:name=>"index_safety_items_on_camp_id"}
-    t.datetime "created_at",  :null=>false
-    t.datetime "updated_at",  :null=>false
-  end
-
-  create_table "safety_sketches", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "camp_id"
-    t.datetime "created_at",              :null=>false
-    t.datetime "updated_at",              :null=>false
-    t.string   "attachment_file_name"
-    t.string   "attachment_content_type"
-    t.bigint   "attachment_file_size"
-    t.datetime "attachment_updated_at"
   end
 
   create_table "taggings", force: :cascade do |t|

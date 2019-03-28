@@ -1,5 +1,7 @@
 class CampsController < ApplicationController
   include CanApplyFilters
+  include AuditLog
+
   before_action :apply_filters, only: :index
   before_action :authenticate_user!, except: [:show, :index]
   before_action :load_camp!, except: [:index, :new, :create]
@@ -25,6 +27,10 @@ class CampsController < ApplicationController
     @camp = Camp.new(camp_params.merge(creator: current_user))
 
     if create_camp
+      audit_log(:camp_created,
+                "Nameless user created dream: %s" % [@camp.name], # TODO user playa name
+                @camp)
+
       flash[:notice] = t('created_new_dream')
       redirect_to edit_event_camp_path(@event, @camp)
     else
