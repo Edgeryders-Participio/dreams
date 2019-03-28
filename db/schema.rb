@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190328104245) do
+ActiveRecord::Schema.define(version: 20190327152450) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace",     :index=>{:name=>"index_active_admin_comments_on_namespace"}
@@ -94,13 +94,13 @@ ActiveRecord::Schema.define(version: 20190328104245) do
   create_table "events", force: :cascade do |t|
     t.integer  "organization_id"
     t.string   "name"
+    t.string   "slug",                :index=>{:name=>"index_events_on_slug", :unique=>true}
     t.datetime "submission_deadline"
     t.datetime "safety_deadline"
     t.datetime "starts_at"
     t.datetime "ends_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "slug"
   end
 
   create_table "favorites", force: :cascade do |t|
