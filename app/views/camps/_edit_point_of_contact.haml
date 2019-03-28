@@ -1,6 +1,0 @@
-=# TODO: Having HAML and erb in the app isn't great; I'd suggest taking these haml ones out.
-= simple_form_for [@event, @camp], :html => {:dir => I18n.t(:html_direction), :id => 'camp-form' } do |form|
-  .combo
-    = form.text_field :dream_point_of_contact_email, :maxlength => 64, :class => "form-control"
-  .submit
-    = form.submit t(:update_point_of_contact), id: 'done-camp', class: 'btn btn-success'

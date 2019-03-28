@@ -1,5 +1,0 @@
-= simple_form_for [@event, @camp], :html => {:dir => I18n.t(:html_direction), :id => 'camp-form' } do |form|
-  .combo
-    = form.input :safety_file_comments, :maxlength => 4096, as: 'text', :class => "form-control"
-  .submit
-    = form.submit t(:dream_safety_file_comments_update), id: 'done-camp', class: 'btn btn-success'
