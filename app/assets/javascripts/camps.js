@@ -1,3 +1,4 @@
+
 $(document).ready(function() {
   $("#responsibles a.add_fields").
     data("association-insertion-position", 'before').
@@ -27,6 +28,67 @@ $(document).ready(function() {
   $('.budgetprogressbar').budgetprogressbar();
 
   Filterrific.init();
+
+  function getAuthenticityToken(el) {
+    return $('input[name=authenticity_token]', $(el).closest('form')).val()
+  }
+
+  function getUrl(el) {
+    return $(el).closest('form').attr('action');
+  }
+
+  function refreshTags(data) {
+    $('#tag-container').empty();
+    for(var tag in data) {
+      $('#tag-container').append(
+          '<div class="tag-item">'
+          + data[tag].name
+          + '<span class="tag-remove" data-tag="'
+          + data[tag].name
+          + '">x</span>'
+          + '</div>'
+      );
+      $('.tag-remove').click(removeTag);
+    }
+  }
+
+  function removeTag(e, el) {
+    var url = getUrl(e.target);
+    var tag = $(e.target).data('tag');
+    var token = getAuthenticityToken(e.target);
+
+    $.ajax({
+      url: url,
+      type: 'POST',
+      data: {method:'_patch', 'camp[tag]': tag, authenticity_token:token},
+      success: function(data) {
+        refreshTags(data);
+      }
+    })
+  }
+
+  function addTags(e, el) {
+    var url = getUrl(e.target);
+    var tags = $("#camp_tag_list").val();
+    var token = getAuthenticityToken(e.target);
+
+    e.preventDefault();
+
+    $.ajax({
+      url: url,
+      type: 'POST',
+      data: {method:'_patch', 'camp[tag_list]': tags, authenticity_token:token},
+      success: function(data) {
+        refreshTags(data);
+      }
+    });
+
+    return false;
+  }
+
+  $('.tag-remove').click(removeTag);
+  $('#tags-add').click(addTags);
+
 });
 
 $(document).ready(function() {

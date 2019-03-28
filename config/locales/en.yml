@@ -89,6 +89,7 @@ en:
   choose_person: Choose a person
   add_a_new_person: Add a new person
   edit_person: Edit details
+  add_tag: Add tag
   remove_responsibility: Remove responsibility
   remove_person: Remove person
   form_project_manager: Project manager
@@ -630,4 +631,5 @@ en:
       too_short: Too short (less than %{count} characters)
       wrong_length: Needs to be %{count} characters long
       not_saved: Not saved
+      tags_saved: Tags are saved
   form_tags: "Tags"

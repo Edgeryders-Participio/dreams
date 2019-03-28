@@ -46,6 +46,7 @@ class Camp < ApplicationRecord
     available_filters: [
       :sorted_by,
       :search_query,
+      :tagged_with,
       :not_fully_funded,
       :not_min_funded,
       :not_seeking_funding,
@@ -142,6 +143,10 @@ class Camp < ApplicationRecord
 
   def grants_received
     @grants_received ||= self.grants.sum(:amount)
+  end
+
+  def self.options_for_tags
+    ActsAsTaggableOn::Tag.most_used(20).map { |tag| [tag.name + ' ( ' + tag.taggings_count.to_s+ ' )', tag.name]}
   end
 
   # Translating the real currency to budget

@@ -37,6 +37,7 @@ Rails.application.routes.draw do
         patch 'toggle_granting', on: :member
         patch 'update_grants', on: :member
         patch 'tag', on: :member
+        post 'remove_tag', on: :member
       end
     end
   end

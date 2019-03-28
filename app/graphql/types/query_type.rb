@@ -4,7 +4,7 @@ module Types
     field :camp, CampType, null: false do
       argument :id, ID, required: true
     end
-    field :user, [UserType], null: false
+    field :users, [UserType], null: false
 
     def camps
       Camp.all

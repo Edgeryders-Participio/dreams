@@ -10,5 +10,6 @@ module Types
     field :images, [Types::ImageType], null: true
     field :users, [Types::UserType], null: false
     field :creator, Types::UserType, null: false
+    field :tags, [Types::TagType], null:false
   end
 end

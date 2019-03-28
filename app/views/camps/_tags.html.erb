@@ -1,13 +1,21 @@
-<%= simple_form_for [@event, @camp], url: { action: 'tag' } do |f| %>
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h2 class="header-sub-heading"><%= Camp.human_attribute_name(:tags) %></h2>
-    </div>
-    <div class="panel-body">
-      <%= f.text_field :tag_list, value: f.object.tag_list.to_s, class: 'form-control' %>
-      <%= f.submit t(:done_camp), id: 'done-tags', class: 'btn btn-success' %>
-
-    </div>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h2 class="header-sub-heading"><%= Camp.human_attribute_name(:tags) %></h2>
   </div>
+  <div class="panel-body">
+    <%= simple_form_for [@event, @camp], url: { action: 'remove_tag', :'format' => 'json' } do |f| %>
+      <div id="tag-container" class="tag-container">
+          <% @camp.tags.each do |tag| %>
+            <div class="tag-item">
+              <%=tag%><span class="tag-remove" data-tag='<%=tag%>'>x</span>
+            </div>
+          <% end %>
+      </div>
+    <% end %>
 
-<% end %>
+    <%= simple_form_for [@event, @camp], url: { action: 'tag', :'format' => 'json' } do |f| %>
+      <%= f.text_field :tag_list, class: 'form-control', value: '' %>
+      <%= f.submit t(:add_tag), id: 'tags-add', class: 'btn btn-success btn-sm' %>
+    <% end %>
+  </div>
+</div>
