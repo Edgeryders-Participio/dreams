@@ -39,7 +39,7 @@
 %br
 %br
 
-= simple_form_for @camp, :html => {:dir => I18n.t(:html_direction), :id => 'camp-form' } do |form|
+= simple_form_for [@event, @camp], :html => {:dir => I18n.t(:html_direction), :id => 'camp-form' } do |form|
   = render 'dont_miss_out', except: nil
 
   .pink-div

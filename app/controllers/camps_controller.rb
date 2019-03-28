@@ -26,7 +26,7 @@ class CampsController < ApplicationController
 
     if create_camp
       flash[:notice] = t('created_new_dream')
-      redirect_to edit_camp_path(id: @camp.id)
+      redirect_to edit_event_camp_path(@event, @camp)
     else
       flash.now[:notice] = "#{t:errors_str}: #{@camp.errors.full_messages.uniq.join(', ')}"
       render :new
@@ -37,7 +37,7 @@ class CampsController < ApplicationController
 
   def toggle_granting
     @camp.toggle!(:grantingtoggle)
-    redirect_to camp_path(@camp)
+    redirect_to event_camp_path(@event, @camp)
   end
 
   def update_grants
@@ -54,16 +54,16 @@ class CampsController < ApplicationController
       flash[:error] = t(:errors_str, message: @camp.errors.full_messages.uniq.join(', '))
     end
 
-    redirect_to camp_path(@camp)
+    redirect_to event_camp_path(@event, @camp)
   end
 
   def update
     if @camp.update_attributes camp_params
       if params[:done] == '1'
-        redirect_to camp_path(@camp)
+        redirect_to event_camp_path(@event, @camp)
       else
         respond_to do |format|
-          format.html { redirect_to edit_camp_path(@camp) }
+          format.html { redirect_to edit_event_camp_path(@event, @camp) }
           format.json { respond_with_bip(@camp) }
         end
       end
@@ -80,12 +80,12 @@ class CampsController < ApplicationController
     @camp.update_attributes(tag_list: params.require(:camp).require(:tag_list))
 
     flash[:notice] = t(:tags_saved)
-    redirect_to camp_path(@camp)
+    redirect_to event_camp_path(@event, @camp)
   end
 
   def destroy
     @camp.destroy!
-    redirect_to camps_path
+    redirect_to event_camps_path(@event)
   end
 
   # Display a camp and its users
@@ -108,7 +108,7 @@ class CampsController < ApplicationController
 
   def archive
     @camp.update!(active: false)
-    redirect_to camps_path
+    redirect_to event_camps_path(@event)
   end
 
   private
@@ -131,7 +131,7 @@ class CampsController < ApplicationController
   def load_camp!
     return if @camp = Camp.find_by(params.permit(:id))
     flash[:alert] = t(:dream_not_found)
-    redirect_to camps_path
+    redirect_to event_camps_path(@event)
   end
 
   def ensure_admin_delete!
@@ -162,7 +162,7 @@ class CampsController < ApplicationController
   end
 
   def failure_path
-    camp_path(@camp)
+    event_camp_path(@event, @camp)
   end
 
   def create_camp

@@ -1,4 +1,4 @@
-= simple_form_for @camp, :html => {:dir => I18n.t(:html_direction), :id => 'camp-form' } do |form|
+= simple_form_for [@event, @camp], :html => {:dir => I18n.t(:html_direction), :id => 'camp-form' } do |form|
   .combo
     = form.input :safety_file_comments, :maxlength => 4096, as: 'text', :class => "form-control"
   .submit

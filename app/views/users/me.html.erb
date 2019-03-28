@@ -42,9 +42,9 @@
         <br><br>
 
         <b><%=t :dreams_you_help_make %></b>:
-        <% Grant.where(user: current_user).each do |grant| %>
+        <% Grant.where(user: current_user).includes(camp: [:event]).each do |grant| %>
           <p>
-            <%= link_to grant.camp.name, camp_path(grant.camp) %><br>
+            <%= link_to grant.camp.name, event_camp_path(grant.camp.event, grant.camp) %><br>
             <span class="glyphicons glyphicons-coins"></span>
             <%= grant.created_at.strftime("%d/%m/%Y") %>
             <% grant.amount.times do |i| %>

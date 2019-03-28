@@ -1,4 +1,4 @@
-<%= simple_form_for @camp, url: { action: 'tag' } do |f| %>
+<%= simple_form_for [@event, @camp], url: { action: 'tag' } do |f| %>
   <div class="panel panel-default">
     <div class="panel-heading">
       <h2 class="header-sub-heading"><%= Camp.human_attribute_name(:tags) %></h2>
