@@ -3,11 +3,14 @@
   <%= javascript_include_tag 'blueimp_script' %>
 <% end %>
 
-<%= render 'camps/dont_miss_out', except: nil %>
-<div class="me col-md-5 col-xs-12" dir="<%=t :html_direction %>" style="float: <%=t :lang_direction%>">
+<% begin %>
+ <%= render 'camps/dont_miss_out', except: nil %> 
+<% end %>
+<div class='me'>
+<div class="profile col-md-5 col-xs-12" dir="<%=t :html_direction %>" style="float: <%=t :lang_direction%>">
   <div class="panel panel-default">
     <div class="panel-heading">
-      <%= image_tag "personalzone_#{I18n.locale}.png" %>
+      <h1><%=t(:your_space) %></h1>
     </div>
     <div class="panel-body">
       <p><b><%=t :contact_email %></b>: <%= current_user.email %></p>
@@ -56,3 +59,6 @@
     </div>
   </div>
 </div>
+
+<%= render :partial => 'users/favorites', locals: { camps: @camps } %>
+</div class='me'>

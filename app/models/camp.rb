@@ -16,14 +16,19 @@ class Camp < ApplicationRecord
 
   has_many :memberships, as: :collective, dependent: :destroy
   has_many :users, through: :memberships
+  has_many :favorites
+  has_many :favorite_users, through: :favorites, source: :user
   has_many :images #, :dependent => :destroy
+  has_many :safety_sketches
   has_many :grants
   has_many :budget_items 
+  has_many :safety_items 
 
   has_paper_trail
 
   accepts_nested_attributes_for :budget_items, allow_destroy: true
-  
+  accepts_nested_attributes_for :safety_items, allow_destroy: true
+
   acts_as_taggable
 
   validates :creator, presence: true

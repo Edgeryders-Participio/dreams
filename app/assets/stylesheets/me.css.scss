@@ -1,19 +1,61 @@
 .me {
+  .profile {
+    height: 100%;
+    display: inline;
+  
+    h1 {
+      color: white;
+    }
+  
+    .coin-image {
+      width: 40px; 
+    }
+  
+    .coin-image-sm {
+      width: 20px; 
+    }
+  
+    .panel-heading {
+      background-color: $c-pinky;
+    }
+  
+    .panel {
+      height: inherit;
+    }
+  
+    a {
+      text-decoration: underline;
+      color: $c-pinky;
+    }
+  
+    #filterrific_results {
+      display: inline;
+    }
+  }
+   
+  .favorite_camps_container{
+    h1 {
+      margin-top: 10px;
+      margin-left: 10px;
+      color: $c-pinky-darker;
+    }
 
-	.coin-image {
-	  width: 40px; 
-	}
+    .camps_list {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      padding-top: 10px;
 
-	.coin-image-sm {
-	  width: 20px; 
-	}
-
-  .panel-heading {
-    background-color: $c-pinky;
+      .panel {
+        height: initial;
+      }
+  
+      .card{
+        padding: 10px;
+        flex: 1 0 300px;
+      }
+    }
   }
 
-  a {
-    text-decoration: underline;
-    color: $c-pinky;
-  }
 }

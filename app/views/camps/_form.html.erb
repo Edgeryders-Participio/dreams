@@ -1,0 +1,301 @@
+<script>
+  
+  // Iterate checkboxes with data-show attributes and show/hide their target divs
+  $(document).ready(function() {
+    $("[data-show]").change((e) => {
+      let target = e.target.attributes['data-show'].value;
+      $(target).fadeToggle();
+    });
+
+    $("[data-show]").each((i,e) => {
+      let target = e.attributes['data-show'].value;
+      if ($(e).is(':checked')) {
+        $(target).show();
+      }else {
+        $(target).hide();
+      }
+    });
+
+  });
+
+
+</script>
+<% if !app_setting("disable_edit_safetybag") or (current_user && (current_user.guide || current_user.admin)) %>
+  <script>
+    
+    $(function() { $(".hide_show_safetyfile").click(function(){
+    if($('.safetybar-info').css('display') === "none") {
+      $('.safetybar-info').fadeIn();
+      }else {
+      $('.safetybar-info').fadeOut();
+      }
+    })});
+
+  </script>
+<% else %>
+  <script>
+    
+    $(function() { $(".hide_show_safetyfile").click(function(){
+      alert( "Safety file is currrently disabled" );
+    })});
+
+
+  </script>
+<% end %>
+<script>
+  
+  $(function() {
+    $("textarea").autoGrow();
+  });
+
+</script>
+<br/>
+<br/>
+<%= simple_form_for @camp, :html => {:dir => I18n.t(:html_direction), :id => 'camp-form' } do |form| %>
+  <%= render 'dont_miss_out', except: nil %>
+  <div class="pink-div">
+    <%= t("press_to_edit") %>
+  </div>
+  <div class="header-heading">
+    <%= t("form_basics_headline") %>
+  </div>
+  <div class="combo" id="name">
+    <%= form.label t("form_dream_name_label") %>
+    <div class="field-description">
+      <%= t("form_dream_name_guidetext_html") %>
+    </div>
+    <blockquote>
+      <%= best_in_place_if @can_edit, @camp, :name, html_attrs: {maxlength: 64, class: "form-control"} %>
+    </blockquote>
+  </div>
+  <% if app_setting("multi_lang_support") %>
+    <div class="combo">
+      <%= form.label t("form_dream_name_en_label") %>
+      <blockquote>
+        <%= best_in_place_if @can_edit,@camp, :en_name, html_attrs: {maxlength: 64, class: "form-control"}, place_holder: t(:form_click_to_edit_html) %>
+      </blockquote>
+    </div>
+  <% end %>
+  <div class="combo" id="subtitle">
+    <%= form.label t("form_subtitle_label") %>
+    <div class="field-description">
+      <%= t("form_subtitle_guidetext_html") %>
+    </div>
+    <blockquote>
+      <%= best_in_place_if @can_edit, @camp, :subtitle, html_attrs: {maxlength: 255, class: "form-control"},as: :textarea, display_with: :simple_format %>
+    </blockquote>
+  </div>
+  <% if app_setting("multi_lang_support") %>
+    <div class="combo">
+      <%= form.label t("form_subtitle_en_label") %>
+      <blockquote>
+        <%= best_in_place_if @can_edit, @camp, :en_subtitle, html_attrs: {maxlength: 255, class: "form-control"},as: :textarea, display_with: :simple_format, place_holder: t(:form_click_to_edit_html) %>
+      </blockquote>
+    </div>
+  <% end %>
+  <div class="combo" id="contact_name">
+    <%= form.label t("form_creator_name_label") %>
+    <div class="field-description">
+      <%= t("form_creator_name_guidetext_html") %>
+    </div>
+    <blockquote>
+      <%= best_in_place_if @can_edit, @camp, :contact_name, html_attrs: {maxlength: 64, class: "form-control"}, place_holder: t(:form_click_to_edit_html) %>
+    </blockquote>
+  </div>
+  <div class="combo" id="visability">
+    <%= form.label t("form_dream_visability") %>
+    <%= form.radio_button :is_public, true %>
+    <%= form.label t("form_dream_visability_yes") %>
+    <%= form.radio_button :is_public, false %>
+    <%= form.label t("form_dream_visability_no") %>
+    <br/>
+    <%= t("form_dream_visability_guidetext_html") %>
+  </div>
+  <div class="combo" id="contact_phone">
+    <% if app_setting("contact_phone") %>
+      <%= form.label t("form_contact_phone_label") %>
+      <div class="field-description">
+        <%= t("form_contact_phone_guidetext_html") %>
+      </div>
+      <blockquote>
+        <%= best_in_place_if @can_edit, @camp, :contact_phone, html_attrs: {maxlength: 64, class: "form-control"}, place_holder: t(:form_click_to_edit_html) %>
+      </blockquote>
+    <% end %>
+  </div>
+  <div class="combo">
+    <%= form.label t("form_about_the_artist_label") %>
+    <blockquote>
+      <%= best_in_place_if @can_edit, @camp, :about_the_artist, html_attrs: {maxlength: 1024, class: "form-control"},as: :textarea, display_with: :simple_format, place_holder: t(:form_click_to_edit_html) %>
+    </blockquote>
+  </div>
+  <div class="combo">
+    <%= form.label t("form_dream_website_label") %>
+    <blockquote>
+      <%= best_in_place_if @can_edit, @camp, :website, html_attrs: {maxlength: 512, class: "form-control"}, display_with: :simple_format, place_holder: t(:form_click_to_edit_html) %>
+    </blockquote>
+  </div>
+  <div class="combo" id="description">
+    <% if app_setting("description") %>
+      <%= form.label t("form_description_label") %>
+      <div class="field-description">
+        <%= t("form_description_guidetext_html") %>
+      </div>
+      <blockquote>
+        <%= best_in_place_if @can_edit, @camp, :description, html_attrs: {maxlength: 4096, class: "form-control"}, as: :textarea, display_with: :simple_format, place_holder: t(:form_click_to_edit_html) %>
+      </blockquote>
+    <% end %>
+  </div>
+  <div class="combo" id="electricity">
+    <% if app_setting("electricity") %>
+      <%= form.label t("form_electricity_label") %>
+      <div class="field-description">
+        <%= t("form_electricity_guidetext_html") %>
+      </div>
+      <blockquote>
+        <%= best_in_place_if @can_edit, @camp, :electricity, html_attrs: {maxlength: 256, class: "form-control"}, as: :textarea, display_with: :simple_format, place_holder: t(:form_click_to_edit_html) %>
+      </blockquote>
+    <% end %>
+  </div>
+  <div class="combo" id="fire">
+    <% if app_setting("fire") %>
+      <%= form.label t("form_fire_label") %>
+      <div class="field-description">
+        <%= t("form_fire_guidetext_html") %>
+      </div>
+      <blockquote>
+        <%= best_in_place_if @can_edit, @camp, :fire, html_attrs: {maxlength: 512, class: "form-control"}, as: :textarea, display_with: :simple_format, place_holder: t(:form_click_to_edit_html) %>
+      </blockquote>
+    <% end %>
+  </div>
+  <div class="combo" id="noise">
+    <% if app_setting("noise") %>
+      <%= form.label t("form_noise_label") %>
+      <div class="field-description">
+        <%= t("form_noise_guidetext_html") %>
+      </div>
+      <blockquote>
+        <%= best_in_place_if @can_edit, @camp, :noise, html_attrs: {maxlength: 256, class: "form-control"}, place_holder: t(:form_click_to_edit_html) %>
+      </blockquote>
+    <% end %>
+  </div>
+  <div class="combo" id="nature">
+    <% if app_setting("nature") %>
+      <%= form.label t("form_nature_label") %>
+      <div class="field-description">
+        <%= t("form_nature_guidetext_html") %>
+      </div>
+      <blockquote>
+        <%= best_in_place_if @can_edit, @camp, :nature, html_attrs: {maxlength: 512, class: "form-control"}, as: :textarea, display_with: :simple_format, place_holder: t(:form_click_to_edit_html) %>
+      </blockquote>
+    <% end %>
+  </div>
+  <div class="combo" id="recycling">
+    <% if app_setting("recycling") %>
+      <%= form.label t("form_recycling_label") %>
+      <div class="field-description">
+        <%= t("form_recycling_guidetext_html") %>
+      </div>
+      <blockquote>
+        <%= best_in_place_if @can_edit, @camp, :recycling, html_attrs: {maxlength: 512, class: "form-control"}, as: :textarea, display_with: :simple_format, place_holder: t(:form_click_to_edit_html) %>
+      </blockquote>
+    <% end %>
+  </div>
+  <div class="combo" id="light">
+    <% if app_setting("light") %>
+      <%= form.label t("form_light_label") %>
+      <div class="field-description">
+        <%= t("form_light_guidetext_html") %>
+      </div>
+      <blockquote>
+        <%= best_in_place_if @can_edit, @camp, :light, html_attrs: {maxlength: 512, class: "form-control"}, place_holder: t(:form_click_to_edit_html) %>
+      </blockquote>
+    <% end %>
+  </div>
+  <div class="combo" id="moop">
+    <% if app_setting("moop") %>
+      <%= form.label t("form_moop_label") %>
+      <div class="field-description">
+        <%= t("form_moop_guidetext_html") %>
+      </div>
+      <blockquote>
+        <%= best_in_place_if @can_edit, @camp, :moop, html_attrs: {maxlength: 1024, class: "form-control"}, as: :textarea, display_with: :simple_format, place_holder: t(:form_click_to_edit_html) %>
+      </blockquote>
+    <% end %>
+  </div>
+  <div class="combo" id="cocreation">
+    <% if app_setting("cocreation") %>
+      <%= form.label t("form_cocreation_label") %>
+      <div class="field-description">
+        <%= t("form_cocreation_guidetext_html") %>
+      </div>
+      <blockquote>
+        <%= best_in_place_if @can_edit, @camp, :cocreation, html_attrs: {maxlength: 4096, class: "form-control"}, as: :textarea, display_with: :simple_format, place_holder: t(:form_click_to_edit_html) %>
+      </blockquote>
+    <% end %>
+  </div>
+  <div class="combo" id="neighbors">
+    <% if app_setting("neighbors") %>
+      <%= form.label t("form_neighbors_label") %>
+      <div class="field-description">
+        <%= t("form_neighbors_guidetext_html") %>
+      </div>
+      <blockquote>
+        <%= best_in_place_if @can_edit, @camp, :neighbors, html_attrs: {maxlength: 4096, class: "form-control"}, as: :textarea, display_with: :simple_format, place_holder: t(:form_click_to_edit_html) %>
+      </blockquote>
+    <% end %>
+  </div>
+
+  <% if app_setting("granting") %>
+      <br/>
+      <br/>
+      <div class="header-heading">
+          <%= t("form_artgrants_headline") %>
+      </div>
+  <% end %>
+  <div class="combo" id="artgrants"></div>
+  <% if app_setting("granting") %>
+      <%= t("form_artgrants_text_html") %>
+  <% end %>
+  <% if app_setting("granting") and !app_setting('disable_edit_budget') %>
+      <div class="combo" id="minbudget_realcurrency">
+          <%= form.label t("form_minigrants_realcurrency_label") %>
+      </div>
+      <div class="field-description">
+          <%= t("form_minigrants_realcurrency_guidetext_html") %>
+      </div>
+      <blockquote>
+          <%= best_in_place_if @can_edit, @camp, :minbudget_realcurrency, html_attrs: {maxlength: 6, class: "form-control"}, place_holder: t(:form_click_to_edit_html), display_with: :number_to_currency, :helper_options => {:unit => "", precision:0} %>
+      </blockquote>
+  <% end %>
+  <% if app_setting("granting") and !app_setting('disable_edit_budget') %>
+      <div class="combo" id="maxbudget_realcurrency">
+          <%= form.label t("form_maxigrants_realcurrency_label") %>
+      </div>
+      <div class="field-description">
+          <%= t("form_maxigrants_realcurrency_guidetext_html") %>
+      </div>
+      <blockquote>
+          <%= best_in_place_if @can_edit, @camp, :maxbudget_realcurrency, html_attrs: {maxlength: 6, class: "form-control"}, place_holder: t(:form_click_to_edit_html), display_with: :number_to_currency, :helper_options => {:unit => "", precision:0} %>
+      </blockquote>
+  <% end %>
+  <% if app_setting("granting") and app_setting("budgeting") %>
+      <div class="combo">
+          <%= form.label t("budget_label") %>
+      </div>
+      <div class="field-description">
+          <%= t("form_budgetplan_guidetext_html")    %>
+      </div>
+      <div id="responsibles">
+          <%= form.fields_for :budget_items do |budget_item| %>
+              <%= render 'budget_item_fields', :f => budget_item, :camp_id => @camp.id %>
+          <% end %>
+      </div>
+      <% if @can_edit %>
+          <div class="row links col-xs-12">
+              <%= link_to_add_association t('add_new_budget_item'), form, :budget_items, render_options: { locals: { camp_id: @camp.id } }, class: 'btn btn-success', id: 'add-new-budget-item' %>
+              <br/>
+              <br/>
+          </div>
+      <% end %>
+  <% end %>
+<% end %>

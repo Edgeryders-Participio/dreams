@@ -1,3 +1,8 @@
+<% content_for(:head) do %>
+  <title><%= t(:browser_title_tag) %></title>
+  <%= javascript_include_tag 'favorite_button' %>
+<% end %>
+
 <div class="modal" id="donateModal" tabindex="-1" role="dialog" aria-labelledby="donateModalLabel" dir=<%=t :html_direction %>>
   <% if app_setting("granting_active") and current_user and @camp.minbudget %>
     <%= form_tag({controller: "camps", action: "update_grants"}, method: "patch", id:"donateForm") do %>
@@ -59,7 +64,14 @@
             <% end %>
             <div class="dream_main_text">
                 <div class="center-dream">
-                    <p><%= @camp.display_name %></p>
+                    <p>
+                        <%= @camp.display_name %>
+                        <% if user_signed_in? %>
+                            <%= link_to :toggle_favorite_camp, method: :patch, class: (@camp.favorite_users.include?(current_user) ? 'favorite-button starred' : 'favorite-button'), id: 'favorite-button', style: "position: absolute;", :remote => true do %>
+                                <span id="star-icon" class="glyphicon <%= @camp.favorite_users.include?(current_user) ? 'glyphicon-star' : 'glyphicon-star-empty' %>"></span>
+                            <% end %>
+                        <% end %>
+                    </p>
                     <p class='dream_main_creator'><%= @camp.contact_name %></p>
 
 
@@ -210,83 +222,6 @@
             <% end %>
         <% end %>
         
-        <!-- Private user data  -->
-        <% if app_setting("safetybag") &&
-            (current_user && current_user.guide || (@camp.creator == current_user)) %>
-            <div class="panel panel-default">
-
-                <div class="panel-heading"><b><%=t :creation_safetybaginfo_headline %></b></div>
-                <div class="panel-body">
-                <ul>
-                    <li><span>
-                        <b><%=t :form_safetybag_crewsize_label %></b> <%= @camp.safetybag_crewsize %>
-                    </span></li>
-                    <br>
-
-                    <li><span>
-                        <b><%=t :form_safetybag_plan_label %></b> <%= @camp.safetybag_plan %>
-                    </span></li>
-                    <br>
-
-                    <li><span>
-                        <b><%=t :form_safetybag_builder_label %></b> <%= @camp.safetybag_builder %>
-                    </span></li>
-                    <br>
-
-                    <li><span>
-                        <b><%=t :form_safetybag_safetyer_label %></b> <%= @camp.safetybag_safetyer %>
-                    </span></li>
-                    <br>
-
-                    <li><span>
-                        <b><%=t :form_safetybag_mooper_label %></b> <%= @camp.safetybag_mooper %>
-                    </span></li>
-                    <br>
-
-                    <li><span>
-                        <b><%=t :form_safetybag_materials_label %></b> <%= @camp.safetybag_materials %>
-                    </span></li>
-                    <br>
-
-                    <li><span>
-                        <b><%=t :form_safetybag_work_in_height_label %></b> <%= @camp.safetybag_work_in_height %>
-                    </span></li>
-                    <br>
-
-                    <li><span>
-                        <b><%=t :form_safetybag_tools_label %></b> <%= @camp.safetybag_tools %>
-                    </span></li>
-                    <br>
-
-                    <li><span>
-                        <b><%=t :form_safetybag_grounding_label %></b> <%= @camp.safetybag_grounding %>
-                    </span></li>
-                    <br>
-
-                    <li><span>
-                        <b><%=t :form_safetybag_safety_label %></b> <%= @camp.safetybag_safety %>
-                    </span></li>
-                    <br>
-
-                    <li><span>
-                        <b><%=t :form_safetybag_electricity_label %></b> <%= @camp.safetybag_electricity %>
-                    </span></li>
-                    <br>
-
-                    <li><span>
-                        <b><%=t :form_safetybag_daily_routine_label %></b> <%= @camp.safetybag_daily_routine %>
-                    </span></li>
-                    <br>
-
-                    <li><span>
-                        <b><%=t :form_safetybag_other_comments_label %></b> <%= @camp.safetybag_other_comments %>
-                    </span></li>
-                    <br>
-                </ul>
-                </div>
-            </div>
-        <% end %>
-
     </div> <!-- col-md-8 -->
 
     <div class="col-md-4">
@@ -311,7 +246,14 @@
                     </span></li>
                     <li><span>
                         <a href="<%= camp_images_path(@camp) %>" class="btn btn-primary camp-button" role="btn button"><%=t :manage_images %></a>
-                    </span></li>
+
+                    <!-- Safety features -->
+
+                    <% if app_setting("safetybag") %>
+                        <li><span>
+                            <a href="<%= camp_safety_sketches_path(@camp) %>" class="btn btn-warning camp-button" role="btn button"><%=t :safety %></a>
+                        </span></li>
+                    <% end %>
 
                     <!-- Granting system -->
                     <% if current_user.guide || current_user.admin %>
@@ -450,21 +392,6 @@
                 </div>
             </div>
         </div> <!-- safety-file-comments -->
-        <% end %>
-
-        <% if app_setting("safetybag") && (current_user&.guide || (@camp.creator == current_user))%>
-          <div class="panel panel-default">
-              <div class="panel-heading"><b><%=t :form_extra_team_member_head %></b></div>
-              <div class="panel-body">
-              <ul>
-              <li><span><b><%=t :form_safetybag_first_member_name_label %>:</b> <%= @camp.safetybag_firstMemberName %></span></li>
-              <li><span><b><%=t :form_safetybag_first_member_email_label %>:</b> <%= @camp.safetybag_secondMemberName %></span></li>
-              <li><span><b><%=t :form_safetybag_second_member_name_label %>:</b> <%= @camp.safetybag_firstMemberEmail %></span></li>
-              <li><span><b><%=t :form_safetybag_second_member_email_label %>:</b> <%= @camp.safetybag_secondMemberEmail %></span></li>
-              </ul>
-              </div>
-          </div>
-        <br>
         <% end %>
 
       <% if current_user&.guide || current_user&.admin %>

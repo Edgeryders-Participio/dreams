@@ -61,6 +61,9 @@ class CampsController < ApplicationController
     if @camp.update_attributes camp_params
       if params[:done] == '1'
         redirect_to event_camp_path(@event, @camp)
+      elsif params[:safetysave] == '1'
+        puts(event_camp_safety_sketches_path(@event, @camp))
+        redirect_to event_camp_safety_sketches_path(@event, @camp)
       else
         respond_to do |format|
           format.html { redirect_to edit_event_camp_path(@event, @camp) }
@@ -104,6 +107,18 @@ class CampsController < ApplicationController
       @camp.users << @user
     end
     redirect_to @camp
+  end
+
+  def toggle_favorite
+    if !current_user
+      flash[:notice] = "please log in :)"
+    elsif @camp.favorite_users.include?(current_user)
+      @camp.favorite_users.delete(current_user)
+      render json: {res: :ok}, status: 200
+    else
+      @camp.favorite_users << current_user
+      render json: {res: :ok}, status: 200
+    end
   end
 
   def archive

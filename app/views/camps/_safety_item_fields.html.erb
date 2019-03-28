@@ -1,0 +1,20 @@
+<div class="nested-fields panel panel-default col-md-12">}
+  <div class="panel-body">
+    <%= f.label t("form_safety_item_headline") %>
+    <% if (@can_edit) %>
+      <%= f.text_field :headline, class: 'form-control' %>
+    <% else %>
+      <%= f.text_field :headline, class: 'form-control', readonly: true %>
+    <% end %>
+    <%= f.label t("form_safety_item_information") %>
+    <% if (@can_edit) %>
+      <%= f.text_field :information, class: 'form-control' %>
+    <% else %>
+      <%= f.text_field :information, class: 'form-control', readonly: true %>
+    <% end %>
+    <br/>
+    <% if (@can_edit) %>
+      <%= link_to_remove_association t("form_remove_safety_item"), f, class: 'remove_person fa fa-trash' %>
+    <% end %>
+  </div>
+</div>

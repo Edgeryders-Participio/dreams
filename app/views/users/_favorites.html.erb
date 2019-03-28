@@ -1,0 +1,10 @@
+<div id="filterrific_results" class="col-md-7 favorite_camps_container">
+    <h1><%= t(:your_favorite_dreams) %></h1>
+    <div class="camps_list">
+        
+        <% current_user.favorite_camps.each do |camp| %>
+            <%= render :partial => 'camps/card', locals: { camp: camp, display_desc: false } %>
+        <% end %>
+
+    </div>
+</div>

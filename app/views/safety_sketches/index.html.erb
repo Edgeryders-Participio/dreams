@@ -1,0 +1,127 @@
+<% if (current_user && (current_user == @camp.creator)) %>
+  <% @can_edit = true %>
+<% end %>
+<% if (current_user && (current_user.guide || current_user.admin)) %>
+  <% @can_edit = @just_view %>
+  <%if @just_view %>
+  <% else %>
+    <script>
+      $(function() {
+        $('input[type=radio],input[type=checkbox]').each((i,e) => { $(e).attr('disabled', true);});
+    });
+    </script>
+  <% end %>
+<% end %>
+
+<% content_for(:head) do %>
+  <title><%= "Editing #{@camp.name} - #{t(:browser_title_tag)}" %></title>
+<% end %>
+
+<% if current_user && (@camp.creator == current_user or current_user.admin or current_user.guide)%>
+
+<div dir='<%=t :html_direction %>'>
+
+    <div class="col-md-8">
+
+        <div class="row">
+            <div class="col-md-10">
+                <h2 class="header-sub-heading"><%= t :safety_headline %></h2>
+                <p><%= t :safety_guidetext_html %> </p>
+            </div>
+        </div>
+
+        <!-- SKETCH IMAGE BLOCK -->
+
+        <div class="row">
+            <div class="col-md-10">
+                <h2 class="header-sub-heading camp-upload_image"><%=t :sketeches_headline %></h2>
+                <p><%=t :upload_sketeches_guidetext_html %> </p>
+            </div>
+        </div>
+
+        <h2 class="header-sub-heading camp-upload_image"><%=t :upload_sketeches_headline %></h2>
+
+        <p><%=t :upload_sketeches_guidetext_html %> </p>
+
+        <%= form_tag camp_safety_sketches_path(camp_id: @camp.id), method: :post, multipart: true do %>
+            <%= label_tag :attachment, t(:upload_button) %>
+            <br>
+            <%= file_field_tag :attachment %>
+            <br>
+            <%= submit_tag t(:upload_button), class: 'btn btn-success camp-button' %>
+        <% end %>
+
+        <% @camp.safety_sketches.each do |safety_sketch| %>
+        <div class="camp-safety_sketch">
+            <br>
+            <%= image_tag(safety_sketch.attachment.url(:medium)) %>
+            <%= form_for safety_sketch, url: camp_safety_sketch_path(safety_sketch.camp_id, safety_sketch),  method: :delete do |form| %>
+            <%= form.submit t(:remove_image), { class: 'delete_button' } %>
+            <br>
+            <% end %>
+        </div>
+        <% end %>
+
+        <!-- SKETCH IMAGE END -->
+
+
+        <!-- SAFETY ITEMS BLOCK -->
+        <%= simple_form_for @camp, :html => {:dir => I18n.t(:html_direction), :id => 'safety-form' } do |form| %>
+
+            <div class="combo">
+                <h2 class="header-sub-heading camp-upload_image"><%=t :safety_data_headline %></h2>
+            </div>
+            <div class="field-description">
+              <%= t("form_safetybag_description_html")    %>
+            </div>
+            <div id="responsibles">
+              <%= form.fields_for :safety_items do |safety_item| %>
+              <%= render 'safety_item_fields', :f => safety_item, :camp_id => @camp.id %>
+              <% end %>
+            </div>
+            <% if @can_edit %>
+            <div class="row links col-xs-12">
+              <%= link_to_add_association t('add_new_safety_item'), form, :safety_items, render_options: { locals: { camp_id: @camp.id } }, class: 'btn btn-success', id: 'add-new-budget-item' %>
+              <br/>
+              <br/>
+            </div>
+            <% end %>
+
+        <% end %>
+        <!-- SAFETY ITEMS END -->
+
+        <div id="footer-bar" dir=<%=t :html_direction %> style=<%= "text-align:" + I18n.t('reverse_direction')%>>
+            <%if current_user.admin or current_user.guide %>
+            <%if @just_view %>
+            <%= link_to t(:open_dream_for_guide_edit_view_only), camp_safety_sketch_path(id: @camp.id), class: "btn btn-success" %>
+            <% else %>
+            <%= link_to t(:open_dream_for_guide_edit), camp_safety_sketch_path(id: @camp.id, just_view: !(@just_view)), class: "btn btn-success" %>
+            <% end %>
+            <% end %>
+
+            <%if @can_edit %>
+            <button class="btn btn-success" id="save-safety"><%= t('save_camp') %></button>
+            <%= t('or_text') %>
+            <button class="btn btn-success" id="done-safety"><%= t('done_camp') %></button>
+            <% else %>
+            <%= link_to t('back_to_dream'), camp_path(@camp), class: "btn btn-success" %>
+            <% end %>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+        <h2 class="header-sub-heading">
+            <%=t :actions_headline %>
+        </h2>
+        <div class="row">
+            <%= link_to t(:back_to_dream), camp_path(@camp), class: "btn btn-info camp-button" %>
+        </div>
+    </div>
+
+</div>
+
+<% else %>
+<p class="alert">Only the original creator can edit this page.</p>
+<% end %>

@@ -12,53 +12,9 @@
     <%= filterrific_sorting_link(@filterrific, :updated_at) %>
 
     <div class="camps_list">
-
+        
         <% @camps.each do |camp| %>
-        <div class='col-md-4'>
-            <a href="<%= url_for(camp) %>">
-
-                <div class="panel panel-info">
-                    <div class="panel-body camp-index">
-                        <% if camp.images.any? %>
-                            <%= image_tag(camp.images.first.attachment.url(:square), :class => "grow") %>
-                        <% else %>
-                            <%= image_tag('bsb_placeholder_square.jpg' , :class => "grow") %>
-                        <% end %>
-
-                        <% @name = (app_setting('multi_lang_support') and camp.en_name.present? and I18n.locale.to_s == 'en')? camp.en_name : camp.name %>
-                        <%= simple_format(truncate(@name, length: 60),
-                                          { class: "name auto-#{@detector.direction(@name)}" },
-                                          wrapper_tag: 'h4') %>
-
-                        <% @subtitle = (app_setting('multi_lang_support') and camp.en_subtitle.present? and I18n.locale.to_s == 'en')? camp.en_subtitle : camp.subtitle %>
-                        <div class="description">
-                          <%= simple_format(truncate(@subtitle, length: 256), class: "auto-#{@detector.direction(@subtitle)}") %>
-                        </div>
-
-                        <div class="labels">
-                            <% if app_setting("granting_active") and camp.minbudget %>
-
-                                <h3 class='budget-info'><%= camp.grants_received %>/<%= camp.maxbudget %><br><%=t :funded %></h3>
-
-                                <!-- Only if never got grants and not opened for granting -->
-                                <% if !camp.grantingtoggle and camp.grants_received <= 0%>
-                                    <h3 class='budget-not-opened'>
-                                        <%=t :granting_not_enabled %>
-                                    </h3>
-                                <% else %>
-                                    <div class="budgetprogressbar" data-min="<%= camp.minbudget %>" data-max="<%= camp.maxbudget %>" data-value="<%= camp.grants_received %>"></div>
-                                <% end %>
-
-                            <% end %>
-                        </div>
-
-                        <% if !camp.is_public? %>
-                            <h4 style="color: #eb1478; position: absolute; top:4px; right:20px;"><span class="glyphicon glyphicon-lock" aria-hidden="true"></h4>
-                        <% end %>
-                    </div>
-                </div>
-            </a>
-        </div>
+            <%= render :partial => 'camps/card', locals: { camp: camp, display_desc: true, css_classes: "col-md-4" } %>
         <% end %>
 
     </div>

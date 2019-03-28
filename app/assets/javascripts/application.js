@@ -42,4 +42,19 @@ $(function() {
 				$(this).text("זה לרוב לוקח כ-8 שניות. קח נשימה עמוקה בזמן שאנחנו מכינים את הפלאייה עבורך. יוצרים לך תיקייה בדרייב ומסנכרנים...").fadeIn('fast'); 
 			})}, 4000);
 	});
+
+	$(document).ready(function() {
+    $('[id^="favorite-button"]').click(function (e) {
+				var button = $(event.target).parent();
+        if(e.target.classList.contains("glyphicon-star")) {
+					button.removeClass('starred')
+					button.find("#star-icon").removeClass('glyphicon-star')
+					button.find("#star-icon").addClass("glyphicon-star-empty")
+        } else {
+					button.addClass('starred')
+					button.find("#star-icon").removeClass("glyphicon-star-empty")
+          button.find("#star-icon").addClass('glyphicon-star')
+        }
+    });
+});
 });

@@ -187,8 +187,43 @@ en:
     safety file. Most of them are not shown in the public dream page
   form_safetybag_headline: Safety file info
   form_safetybag_show_hide: Show / Hide Safety file info
-  form_safetybag_needs_to_fill: Please notice the button above me. click it! You should
-    fill safety bag info till the 22/11
+  form_safetybag_needs_to_fill: Most dreams can skip this step. If your dream is a structure that is more than 50 m2 large or more than 3 meters high, it needs additional safety information and supporting documents. Show the safety section and fill in required details. 
+
+  form_safetybag_description_html: "You must fill some safety information to meet municipality regulations. 
+    <br>Create a new safety item for each of the healines above, and add more if relevant or required by the safety team.
+    <ul>
+      <li>
+        <b>Usage:</b> How will the structure be used? One short sentence is enough, for example 'Party, chill and workshop space.'
+      </li>
+      <li>
+        <b>Structure:</b> Describe the structure in one sentence, example 'Scaffolding covered with tarp'.
+      </li>
+      <li>
+        <b>Producer:</b> Specify producer, example 'ACME' or 'Custom built on site'.
+      </li>
+      <li>
+        <b>Area:</b> Footprint, for example '55 m2'.
+      </li>
+      <li>
+        <b>Height:</b> In metres, for example '3 m'.
+      </li>
+      <li>
+        <b>People:</b> Max amount of people allowed in structure, example 'Max 40 ppl'.
+      </li>
+      <li>
+        <b>Anchor:</b> Materials and method used to anchor, example 'Military grade anchor-poles (60cm long, 3cm thick) hammered down'.
+      </li>
+      <li>
+        <b>Responsible:</b> Name of crew-member responsible to authorities.
+      </li>
+    </ul>"
+  form_safety_item_headline: Safety item headline
+  form_safety_item_information: Safety item information
+  add_new_safety_item: Add new safety item
+  remove_safety_item: Remove safety item
+
+  form_add_new_safety_item: Add safety item
+  form_remove_safety_item: Remove safety item
   form_safetybag_crewsize_label: Crew size
   form_safetybag_crewsize_guidetext_html: How many people are you?
   form_safetybag_plan_label: Details work plan for safety file - what are you building
@@ -238,6 +273,7 @@ en:
   update_dream: Update Dream!
   edit_dream: Edit Dream
   manage_images: Manage Images
+  safety: Safety documentation
   open_dream_for_guide_edit: Open dream for guide editing
   open_dream_for_guide_edit_view_only: Lock dream for View only
   give_grants: Give Grants
@@ -279,6 +315,47 @@ en:
   upload_guidetext_html: Images must be smaller than 8 mb and be in jpg, png or gif
     format. To make your Dream look really awesome, make sure your images are in landscape
     format and larger than 1500x800 pixels.
+  sketeches_headline: Safety sketches & evacuation plans
+  upload_sketeches_headline: Upload safety plans
+  upload_sketeches_guidetext_html: This is where you upload compliant safety plans. Images must be smaller than 8 mb and be in jpg, png or gif
+    format. To make your Dream look really awesome, make sure your images are in landscape
+    format and larger than 1500x800 pixels.
+  safety_headline: Safety details
+  safety_guidetext_html: Very few Dreams need to submit any safety documentation, but if you are planning on building a structure that is more than 50 m2 large or 3 m tall, you need to supply some additional information. You also need to create compliant sketches of how your structure will be evacuated in case of fire. 
+  safety_data_headline: Safety data
+  form_safetybag_description_html: "You must fill some safety information to meet municipality regulations. 
+    <br>Create a new safety item for each of the healines above, and add more if relevant or required by the safety team.
+    <ul>
+      <li>
+        <b>Usage:</b> How will the structure be used? One short sentence is enough, for example 'Party, chill and workshop space.'
+      </li>
+      <li>
+        <b>Structure:</b> Describe the structure in one sentence, example 'Scaffolding covered with tarp'.
+      </li>
+      <li>
+        <b>Producer:</b> Specify producer, example 'ACME' or 'Custom built on site'.
+      </li>
+      <li>
+        <b>Area:</b> Footprint, for example '55 m2'.
+      </li>
+      <li>
+        <b>Height:</b> In metres, for example '3 m'.
+      </li>
+      <li>
+        <b>People:</b> Max amount of people allowed in structure, example 'Max 40 ppl'.
+      </li>
+      <li>
+        <b>Anchor:</b> Materials and method used to anchor, example 'Military grade anchor-poles (60cm long, 3cm thick) hammered down'.
+      </li>
+      <li>
+        <b>Responsible:</b> Name of crew-member responsible to authorities.
+      </li>
+    </ul>"
+  form_safety_item_headline: Safety item headline
+  form_safety_item_information: Safety item information
+  add_new_safety_item: Add new safety item
+  remove_safety_item: Remove safety item
+
   upload_button: Upload Image
   remove_image: Remove Image
   back_to_dream: Back to dream
@@ -301,8 +378,9 @@ en:
   archive_this_creation: Remove this creation
   delete_are_you_sure: Are you sure?
   are_you_sure: Are you sure?
-  your_space: Your personal space
-  your_dream: Your dream
+  your_space: Personal Sanctuary
+  your_dream: Your dreams
+  your_favorite_dreams: Favorite Dreams
   youve_donated: You've donated
   coins_name: Hearts
   dreams_you_help_make: Dreams you made happen
