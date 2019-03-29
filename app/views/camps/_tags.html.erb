@@ -3,7 +3,7 @@
     <h2 class="header-sub-heading"><%= Camp.human_attribute_name(:tags) %></h2>
   </div>
   <div class="panel-body">
-    <%= simple_form_for @camp, url: { action: 'remove_tag', :'format' => 'json' } do |f| %>
+    <%= simple_form_for [@event, @camp], url: tag_event_camp_path(@event, @camp, format: :json), method: :delete do |f| %>
       <div id="tag-container" class="tag-container">
           <% @camp.tags.each do |tag| %>
             <div class="tag-item">
@@ -13,7 +13,7 @@
       </div>
     <% end %>
 
-    <%= simple_form_for @camp, url: { action: 'tag', :'format' => 'json' } do |f| %>
+    <%= simple_form_for [@event, @camp], url: tag_event_camp_path(@event, @camp, format: :json) do |f| %>
       <%= f.text_field :tag_list, class: 'form-control', value: '' %>
       <%= f.submit t(:add_tag), id: 'tags-add', class: 'btn btn-success btn-sm' %>
     <% end %>

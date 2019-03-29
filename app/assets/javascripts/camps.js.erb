@@ -58,8 +58,8 @@ $(document).ready(function() {
 
     $.ajax({
       url: url,
-      type: 'POST',
-      data: {method:'_patch', 'camp[tag]': tag, authenticity_token:token},
+      type: 'DELETE',
+      data: {_method:'DELETE', 'camp[tag]': tag, authenticity_token:token},
       success: function(data) {
         refreshTags(data);
       }
@@ -76,7 +76,7 @@ $(document).ready(function() {
     $.ajax({
       url: url,
       type: 'POST',
-      data: {method:'_patch', 'camp[tag_list]': tags, authenticity_token:token},
+      data: {'camp[tag_list]': tags, authenticity_token:token},
       success: function(data) {
         refreshTags(data);
       }

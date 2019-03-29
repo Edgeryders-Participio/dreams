@@ -3,8 +3,12 @@ class UsersController < ApplicationController
   before_action :load_lang_detector, only: [:show, :index, :me]
 
   def me
-    @memberships = current_user.created_camps.joins(:memberships).joins(:users)
-                       .where('users.id != ?', current_user.id).select('users.email')
+    # TODO: There's a possible regression here where this list may now display
+    # Organization memberships as well.
+    # I've written a relation which may be able to replace it cleanly in user.rb#18,
+    # so you could start off with seeing if something like the following works:
+
+    @memberships = current_user.collaborators.distinct.pluck(:email) - Array(current_user.email)
   end
 
   def show

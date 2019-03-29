@@ -12,14 +12,17 @@ class Camp < ApplicationRecord
   include AppSettings
   extend AppSettings
   belongs_to :creator, class_name: 'User', foreign_key: 'user_id'
+  belongs_to :event
 
-  has_many :memberships, dependent: :destroy
+  has_many :memberships, as: :collective, dependent: :destroy
   has_many :users, through: :memberships
   has_many :favorites
   has_many :favorite_users, through: :favorites, source: :user
   has_many :images #, :dependent => :destroy
   has_many :safety_sketches
+
   has_many :grants
+  
   has_many :budget_items 
   has_many :safety_items 
 

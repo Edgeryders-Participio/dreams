@@ -1,3 +1,4 @@
+# TODO: get rid of this class
 class Lockdown
   include Singleton
 

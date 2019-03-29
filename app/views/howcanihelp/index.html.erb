@@ -42,7 +42,7 @@
 
       <% @camps.each do |camp| %>
       <div class='col-md-4'>
-          <a href="<%= url_for(camp) %>">
+          <a href="<%= event_camp_path(camp.event, camp) %>">
 
               <div class="panel panel-info">
                   <div class="panel-body camp-index">

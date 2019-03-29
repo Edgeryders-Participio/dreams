@@ -4,6 +4,7 @@ class CampsController < ApplicationController
 
   before_action :apply_filters, only: :index
   before_action :authenticate_user!, except: [:show, :index]
+  before_action :load_event!
   before_action :load_camp!, except: [:index, :new, :create]
   before_action :ensure_admin_delete!, only: [:destroy, :archive]
   before_action :ensure_admin_update!, only: [:update]
@@ -15,6 +16,7 @@ class CampsController < ApplicationController
 
   def new
     @camp = Camp.new
+    @camp.event = @event
   end
 
   def edit
@@ -30,7 +32,7 @@ class CampsController < ApplicationController
                 @camp)
 
       flash[:notice] = t('created_new_dream')
-      redirect_to edit_camp_path(id: @camp.id)
+      redirect_to edit_event_camp_path(@event, @camp)
     else
       flash.now[:notice] = "#{t:errors_str}: #{@camp.errors.full_messages.uniq.join(', ')}"
       render :new
@@ -41,36 +43,30 @@ class CampsController < ApplicationController
 
   def toggle_granting
     @camp.toggle!(:grantingtoggle)
-    redirect_to camp_path(@camp)
+    redirect_to event_camp_path(@event, @camp)
   end
 
   def update_grants
-    @camp.grants.build(user: current_user, amount: granted)
-    @camp.assign_attributes(
-      minfunded:   (@camp.grants_received + granted) >= @camp.minbudget,
-      fullyfunded: (@camp.grants_received + granted) >= @camp.maxbudget
-    )
-
-    if @camp.save
-      current_user.update(grants: current_user.grants - granted)
-      flash[:notice] = t(:thanks_for_sending, grants: granted)
+    actually_granted, ok = current_user.wallet_for(@event).grant_to(@camp, granted)
+    if ok
+      flash[:notice] = t(:thanks_for_sending, grants: actually_granted)
     else
       flash[:error] = t(:errors_str, message: @camp.errors.full_messages.uniq.join(', '))
     end
 
-    redirect_to camp_path(@camp)
+    redirect_to event_camp_path(@event, @camp)
   end
 
   def update
     if @camp.update_attributes camp_params
       if params[:done] == '1'
-        redirect_to camp_path(@camp)
+        redirect_to event_camp_path(@event, @camp)
       elsif params[:safetysave] == '1'
-        puts(camp_safety_sketches_path(@camp))
-        redirect_to camp_safety_sketches_path(@camp)
+        puts(event_camp_safety_sketches_path(@event, @camp))
+        redirect_to event_camp_safety_sketches_path(@event, @camp)
       else
         respond_to do |format|
-          format.html { redirect_to edit_camp_path(@camp) }
+          format.html { redirect_to edit_event_camp_path(@event, @camp) }
           format.json { respond_with_bip(@camp) }
         end
       end
@@ -103,7 +99,7 @@ class CampsController < ApplicationController
 
   def destroy
     @camp.destroy!
-    redirect_to camps_path
+    redirect_to event_camps_path(@event)
   end
 
   # Display a camp and its users
@@ -138,10 +134,15 @@ class CampsController < ApplicationController
 
   def archive
     @camp.update!(active: false)
-    redirect_to camps_path
+    redirect_to event_camps_path(@event)
   end
 
   private
+
+  def load_event!
+    @event = Event.find(params[:event_id])
+    not_found if @event.nil?
+  end
 
   # TODO: We can't permit! attributes like this, because it means that anyone
   # can update anything about a camp in any way (including the id, etc); recipe for disaster!
@@ -152,9 +153,12 @@ class CampsController < ApplicationController
   end
 
   def load_camp!
-    return if @camp = Camp.find_by(params.permit(:id))
-    flash[:alert] = t(:dream_not_found)
-    redirect_to camps_path
+    @camp = Camp.includes(:event).find(params[:id])
+
+    if @camp.nil? or @camp.event.id != @event.id
+      flash[:alert] = t(:dream_not_found)
+      redirect_to event_camps_path(@event)
+    end
   end
 
   def ensure_admin_delete!
@@ -170,11 +174,13 @@ class CampsController < ApplicationController
   end
 
   def ensure_grants!
+    grants_left = current_user.grants_left_for(@event)
+
     assert(@camp.maxbudget, :dream_need_to_have_max_budget) ||
-    assert(current_user.grants >= granted, :security_more_grants, granted: granted, current_user_grants: current_user.grants) ||
+    assert(grants_left >= granted, :security_more_grants, granted: granted, current_user_grants: grants_left) ||
     assert(granted > 0, :cant_send_less_then_one) ||
     assert(
-      current_user.admin || (@camp.grants.where(user: current_user).sum(:amount) + granted <= app_setting('max_grants_per_user_per_dream')),
+      current_user.admin || (@camp.grants_for(@event).where(user: current_user).sum(:amount) + granted <= app_setting('max_grants_per_user_per_dream')),
       :exceeds_max_grants_per_user_for_this_dream,
       max_grants_per_user_per_dream: app_setting('max_grants_per_user_per_dream')
     )
@@ -185,7 +191,7 @@ class CampsController < ApplicationController
   end
 
   def failure_path
-    camp_path(@camp)
+    event_camp_path(@event, @camp)
   end
 
   def create_camp

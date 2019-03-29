@@ -86,8 +86,21 @@ ActiveRecord::Schema.define(version: 20190327152450) do
     t.string   "en_subtitle",                                              :limit=>255
     t.string   "dream_point_of_contact_email",                             :limit=>64
     t.string   "safety_file_comments",                                     :limit=>4096
+    t.integer  "event_id",                                                 :index=>{:name=>"index_camps_on_event_id"}
     t.string   "loomio_thread_id"
     t.string   "loomio_thread_key"
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.integer  "organization_id"
+    t.string   "name"
+    t.string   "slug",                :index=>{:name=>"index_events_on_slug", :unique=>true}
+    t.datetime "submission_deadline"
+    t.datetime "safety_deadline"
+    t.datetime "starts_at"
+    t.datetime "ends_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "favorites", force: :cascade do |t|
@@ -95,6 +108,14 @@ ActiveRecord::Schema.define(version: 20190327152450) do
     t.integer  "camp_id",    :index=>{:name=>"index_favorites_on_camp_id"}
     t.datetime "created_at", :null=>false
     t.datetime "updated_at", :null=>false
+  end
+
+  create_table "grant_wallets", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "event_id"
+    t.integer  "grants_left"
+    t.datetime "created_at",  :null=>false
+    t.datetime "updated_at",  :null=>false
   end
 
   create_table "grants", force: :cascade do |t|
@@ -131,10 +152,17 @@ ActiveRecord::Schema.define(version: 20190327152450) do
   end
 
   create_table "memberships", force: :cascade do |t|
-    t.datetime "created_at", :null=>false
-    t.datetime "updated_at", :null=>false
-    t.integer  "user_id",    :index=>{:name=>"index_memberships_on_user_id"}
-    t.integer  "camp_id",    :index=>{:name=>"index_memberships_on_camp_id"}
+    t.datetime "created_at",      :null=>false
+    t.datetime "updated_at",      :null=>false
+    t.integer  "user_id",         :index=>{:name=>"index_memberships_on_user_id"}
+    t.integer  "collective_id",   :index=>{:name=>"index_memberships_on_collective_id"}
+    t.string   "collective_type", :default=>"Camp"
+  end
+
+  create_table "organizations", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "people", force: :cascade do |t|

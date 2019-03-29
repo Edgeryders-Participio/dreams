@@ -40,7 +40,7 @@
                     <p>
                         <%= @camp.display_name %>
                         <% if user_signed_in? %>
-                            <%= link_to :toggle_favorite_camp, method: :patch, class: (@camp.favorite_users.include?(current_user) ? 'favorite-button starred' : 'favorite-button'), id: 'favorite-button', style: "position: absolute;", :remote => true do %>
+                            <%= link_to toggle_favorite_event_camp_path(@event, @camp), method: :patch, class: (@camp.favorite_users.include?(current_user) ? 'favorite-button starred' : 'favorite-button'), id: 'favorite-button', style: "position: absolute;", :remote => true do %>
                                 <span id="star-icon" class="glyphicon <%= @camp.favorite_users.include?(current_user) ? 'glyphicon-star' : 'glyphicon-star-empty' %>"></span>
                             <% end %>
                         <% end %>
@@ -65,7 +65,7 @@
 
                                 <!-- If user grants are > 0, allow user to asign them -->
                                 <% if @camp.grantingtoggle %>
-                                    <% if current_user && current_user.grants > 0 && !@camp.fullyfunded %>
+                                    <% if current_user && current_user.grants_left_for(@event) > 0 && !@camp.fullyfunded %>
 
                                         <button type="button" class="btn btn-success donate-button" data-toggle="modal" data-target="#donateModal">
                                           <%= t(:i_gift_thee_grants) %>
@@ -217,33 +217,33 @@
                 <div class="panel-heading"><h2 class="header-sub-heading"><%=t :actions_headline %></h2></div>
                 <div class="panel-body">
                     <li><span>
-                        <a href="<%= edit_camp_path(@camp) %>" class="btn btn-primary camp-button" role="btn button"><%=t :edit_dream %></a>
+                        <a href="<%= edit_event_camp_path(@event, @camp) %>" class="btn btn-primary camp-button" role="btn button"><%=t :edit_dream %></a>
                     </span></li>
                     <li><span>
-                        <a href="<%= camp_images_path(@camp) %>" class="btn btn-primary camp-button" role="btn button"><%=t :manage_images %></a>
+                        <a href="<%= event_camp_images_path(@event, @camp) %>" class="btn btn-primary camp-button" role="btn button"><%=t :manage_images %></a>
 
                     <!-- Safety features -->
 
                     <% if app_setting("safetybag") %>
                         <li><span>
-                            <a href="<%= camp_safety_sketches_path(@camp) %>" class="btn btn-warning camp-button" role="btn button"><%=t :safety %></a>
+                            <a href="<%= event_camp_safety_sketches_path(@event, @camp) %>" class="btn btn-warning camp-button" role="btn button"><%=t :safety %></a>
                         </span></li>
                     <% end %>
 
                     <!-- Granting system -->
                     <% if current_user.guide || current_user.admin %>
                         <%= button_to t(@camp.grantingtoggle? ? :turn_off_granting : :enable_granting),
-                                      :toggle_granting_camp, { method: :patch, class: "btn btn-danger" } %>
+                                      toggle_granting_event_camp_path(@event, @camp), { method: :patch, class: "btn btn-danger" } %>
                     <% end %>
 
                     <% if @camp.creator == current_user || current_user.guide || current_user.admin %>
                       <% if @camp.active? %>
-                        <%= button_to t(:archive_this_creation), :archive_camp,
+                        <%= button_to t(:archive_this_creation), archive_event_camp_path(@event, @camp),
                                       { method: :post, class: "btn btn-danger", data: { confirm: t(:are_you_sure) } } %>
                       <% end %>
 
                       <% if current_user.admin %>
-                        <%= button_to t(:delete_this_creation), { action: 'destroy' },
+                        <%= button_to t(:delete_this_creation), event_camp_path(@event, @camp),
                                       { method: :delete, class: "btn btn-danger", data: { confirm: t(:delete_are_you_sure) } } %>
                       <% end %>
 
@@ -273,7 +273,7 @@
                     <div class="panel-heading"><h2 class="header-sub-heading"><%=t :creation_info_headline %></h2></div>
                 <div class="panel-body">
 
-                <% if app_setting("show_point_of_contact") && (current_user && ((@camp.creator == current_user) || (current_user.guide || current_user.admin))) %>
+                <% if app_setting("show_    point_of_contact") && (current_user && ((@camp.creator == current_user) || (current_user.guide || current_user.admin))) %>
                     <span class='dream-point-of-contact'>
                         <span class='glyphicon glyphicon-envelope' aria-hidden="true"></span>&nbsp<%=t :form_dream_point_of_contact_email %>
                     </span><br>
@@ -339,7 +339,7 @@
                 <% end %>
 
                 <% random = Camp.active(true).not_hidden(true).order("RANDOM()").first %>
-                <a href="<%= url_for(random) %>" class="btn btn-primary camp-button" role="button">
+                <a href="<%= event_camp_path(@event, @camp) %>" class="btn btn-primary camp-button" role="button">
                     <%=t :next_random_dream %> <span class="glyphicon glyphicon-random vertical-middle" aria-hidden="true"></span>
                 </a>
 

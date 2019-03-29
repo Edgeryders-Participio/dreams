@@ -2,6 +2,9 @@ ActiveAdmin.register_page "Dashboard" do
 
   menu priority: 1, label: proc{ I18n.t("active_admin.dashboard") }
 
+  # TODO: Adding some information about events and organizations would likely
+  # be a welcome addition to this dashboard
+
   content title: proc{ I18n.t("active_admin.dashboard") } do
     default_coins = 10
 

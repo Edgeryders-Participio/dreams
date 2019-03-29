@@ -1,10 +1,10 @@
 <div class='card <%= css_classes if defined?(css_classes)%>'>
     <% if user_signed_in? %>
-        <%= link_to toggle_favorite_camp_path(:id => camp.id), method: :patch, class: (camp.favorite_users.include?(current_user) ? 'favorite-button starred' : 'favorite-button'), id: 'favorite-button', :remote => true do %>
+        <%= link_to toggle_favorite_event_camp_path(@event, camp), method: :patch, class: (camp.favorite_users.include?(current_user) ? 'favorite-button starred' : 'favorite-button'), id: 'favorite-button', :remote => true do %>
             <span id="star-icon" class="glyphicon <%= camp.favorite_users.include?(current_user) ? 'glyphicon-star' : 'glyphicon-star-empty' %>"></span>
         <% end %>
     <% end %>
-    <a href="<%= url_for(camp) %>">
+    <a href="<%= event_camp_path(@event, camp) %>">
         <div class="panel panel-info">
             <div class="panel-body camp-index">
                 
