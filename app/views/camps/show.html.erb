@@ -233,7 +233,7 @@
                     <!-- Granting system -->
                     <% if current_user.guide || current_user.admin %>
                         <%= button_to t(@camp.grantingtoggle? ? :turn_off_granting : :enable_granting),
-                                      :toggle_granting_camp, { method: :patch, class: "btn btn-danger" } %>
+                                      toggle_granting_event_camp_path(@event, @camp), { method: :patch, class: "btn btn-danger" } %>
                     <% end %>
 
                     <% if @camp.creator == current_user || current_user.guide || current_user.admin %>
