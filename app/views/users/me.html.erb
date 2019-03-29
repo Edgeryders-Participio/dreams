@@ -35,8 +35,9 @@
 
       <% if app_setting("granting") %>
         <b><%=t :your_available_grants %></b>:
-        <% if current_user.grants > 0 %>
-          <% current_user.grants.times do |i| %>
+        <% grants_left = !Event.most_relevant.nil? ? current_user.grants_left_for(Event.most_relevant) : 0 %>
+        <% if grants_left > 0 %>
+          <% grants_left.times do |i| %>
             <%= image_tag "coin.png", class: "coin-image" %>
           <% end %>
         <% else %>
@@ -47,7 +48,7 @@
         <b><%=t :dreams_you_help_make %></b>:
         <% Grant.where(user: current_user).includes(camp: [:event]).each do |grant| %>
           <p>
-            <%= link_to grant.camp.name, event_camp_path(event_slug: grant.camp.event.slug, id: grant.camp.id) %><br>
+            <%= link_to grant.camp.name, event_camp_path(grant.camp.event, grant.camp) %><br>
             <span class="glyphicons glyphicons-coins"></span>
             <%= grant.created_at.strftime("%d/%m/%Y") %>
             <% grant.amount.times do |i| %>

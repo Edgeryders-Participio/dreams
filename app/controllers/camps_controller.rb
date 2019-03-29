@@ -4,12 +4,12 @@ class CampsController < ApplicationController
 
   before_action :apply_filters, only: :index
   before_action :authenticate_user!, except: [:show, :index]
+  before_action :load_event!
   before_action :load_camp!, except: [:index, :new, :create]
   before_action :ensure_admin_delete!, only: [:destroy, :archive]
   before_action :ensure_admin_update!, only: [:update]
   before_action :ensure_grants!, only: [:update_grants]
   before_action :load_lang_detector, only: [:show, :index]
-  before_action :load_event
 
   def index
   end
@@ -139,12 +139,9 @@ class CampsController < ApplicationController
 
   private
 
-  def load_event
-    @event = Event.find_by(slug: params[:event_slug])
-    @event ||= Event.most_relevant
-    if @event.nil?
-      redirect_to events_path 
-    end
+  def load_event!
+    @event = Event.find(params[:event_id])
+    not_found if @event.nil?
   end
 
   # TODO: We can't permit! attributes like this, because it means that anyone
@@ -156,9 +153,12 @@ class CampsController < ApplicationController
   end
 
   def load_camp!
-    return if @camp = Camp.find_by(params.permit(:id))
-    flash[:alert] = t(:dream_not_found)
-    redirect_to event_camps_path(@event)
+    @camp = Camp.includes(:event).find(params[:id])
+
+    if @camp.nil? or @camp.event.id != @event.id
+      flash[:alert] = t(:dream_not_found)
+      redirect_to event_camps_path(@event)
+    end
   end
 
   def ensure_admin_delete!
@@ -180,7 +180,7 @@ class CampsController < ApplicationController
     assert(grants_left >= granted, :security_more_grants, granted: granted, current_user_grants: grants_left) ||
     assert(granted > 0, :cant_send_less_then_one) ||
     assert(
-      current_user.admin || (@camp.grants.where(user: current_user).sum(:amount) + granted <= app_setting('max_grants_per_user_per_dream')),
+      current_user.admin || (@camp.grants_for(@event).where(user: current_user).sum(:amount) + granted <= app_setting('max_grants_per_user_per_dream')),
       :exceeds_max_grants_per_user_for_this_dream,
       max_grants_per_user_per_dream: app_setting('max_grants_per_user_per_dream')
     )

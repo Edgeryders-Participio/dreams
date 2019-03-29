@@ -21,29 +21,26 @@ Rails.application.routes.draw do
   get '/me' => 'users#me'
   get '/howcanihelp' => 'howcanihelp#index'
 
-  constraints(slug: Event::SLUG_FORMAT, id: /\d+/) do
-    get 'events', to: 'events#index', as: 'events'
-    resources :events, param: :slug, only: [:show], path: "" do
-      get 'current', on: :collection
-      get 'future', on: :collection
-      get 'past', on: :collection
-  
-      get '', to: 'camps#index', as: 'camps'
-      resources :camps, path: 'dreams', except: [:index] do
-        resources :images
-        resources :safety_sketches
-        post 'join', on: :member
-        post 'archive', on: :member
-        patch 'toggle_favorite', on: :member
-        patch 'toggle_granting', on: :member
-        patch 'update_grants', on: :member
-        patch 'tag', on: :member
-        post 'remove_tag', on: :member
-      end
+  get 'events', to: 'events#index', as: 'events'
+  resources :events, only: [:show], path: "" do
+    get 'current', on: :collection
+    get 'future', on: :collection
+    get 'past', on: :collection
+
+    get '', to: 'camps#index', as: 'camps'
+    post '', to: 'camps#create'
+    resources :camps, path: 'dreams', except: [:index] do
+      resources :images
+      resources :safety_sketches
+      post 'join', on: :member
+      post 'archive', on: :member
+      patch 'toggle_favorite', on: :member
+      patch 'toggle_granting', on: :member
+      patch 'update_grants', on: :member
+      post 'tag', on: :member
+      delete 'tag', to: 'camps#remove_tag', on: :member
     end
   end
 
-  
-  
   get '*unmatched_route' => 'application#not_found'
 end

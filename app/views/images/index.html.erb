@@ -9,7 +9,7 @@
             <% @camp.images.each do |image| %>
                 <div class="camp-image">
                     <%= image_tag(image.attachment.url(:medium)) %>
-                    <%= form_for image, url: camp_image_path(image.camp_id, image),  method: :delete do |form| %>
+                    <%= form_for image, url: event_camp_image_path(@event, @camp, image),  method: :delete do |form| %>
                         <%= form.submit t(:remove_image), { class: 'delete_button' } %>
                     <% end %>
                 </div>
@@ -23,7 +23,7 @@
 
         </div>
 
-        <%= form_tag camp_images_path(camp_id: @camp.id), method: :post, multipart: true do %>
+        <%= form_tag event_camp_images_path(@event, @camp), method: :post, multipart: true do %>
         <div class="row">
             <%= label_tag :attachment, t(:upload_button) %>
             <br><br>
@@ -43,7 +43,7 @@
             <%=t :creation_info_headline %>
         </h2>
         <div class="row">
-            <%= link_to t(:back_to_dream), event_camp_path(event_slug: @event.slug, id: @camp.id), class: "btn btn-info camp-button" %>
+            <%= link_to t(:back_to_dream), event_camp_path(@event, @camp), class: "btn btn-info camp-button" %>
         </div>
     </div>
 </div>

@@ -27,9 +27,9 @@
     <div id="footer-bar" dir=<%=t :html_direction %> style=<%= "text-align:" + I18n.t('reverse_direction')%>>
     <%if current_user.admin or current_user.guide %>
       <%if @just_view %>
-        <%= link_to t(:open_dream_for_guide_edit_view_only), edit_event_camp_path(event_slug: @event.slug, id: @camp.id), class: "btn btn-success" %>
+        <%= link_to t(:open_dream_for_guide_edit_view_only), edit_event_camp_path(@event, @camp), class: "btn btn-success" %>
       <% else %>
-        <%= link_to t(:open_dream_for_guide_edit), edit_event_camp_path(event_slug: @event.slug, id: @camp.id, just_view: !(@just_view)), class: "btn btn-success" %>
+        <%= link_to t(:open_dream_for_guide_edit), edit_event_camp_path(@event, @camp, just_view: !(@just_view)), class: "btn btn-success" %>
       <% end %>
     <% end %>
 
@@ -38,7 +38,7 @@
         <%= t('or_text') %>
         <button class="btn btn-success" id="done-camp"><%= t('done_camp') %></button>
       <% else %>
-        <%= link_to t('back_to_dream'), event_camp_path(event_slug: @event.slug, id: @camp.id), class: "btn btn-success" %>
+        <%= link_to t('back_to_dream'), event_camp_path(@event, @camp), class: "btn btn-success" %>
       <% end %>
 
     </div>

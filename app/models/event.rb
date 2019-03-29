@@ -8,7 +8,7 @@ class Event < ActiveRecord::Base
   has_many :participants, through: :camps, source: :users
 
   def self.most_relevant
-    where('ends_at > ?', Time.current).order(starts_at: :asc).first
+    @@most_relevant ||= where('ends_at > ?', Time.current).order(starts_at: :asc).first
   end
 
   scope :past,   -> { where('ends_at < ?', Time.current) }
@@ -18,4 +18,12 @@ class Event < ActiveRecord::Base
     presence: true,
     uniqueness: true,
     format: {with: Regexp.new('\A' + SLUG_FORMAT.source + '\z')}
+
+  def to_param
+    slug
+  end
+
+  def self.find(input)
+    input.to_i == 0 ? find_by_slug(input) : super
+  end
 end

@@ -51,7 +51,7 @@
 </script>
 <br/>
 <br/>
-<%= simple_form_for @camp, :html => {:dir => I18n.t(:html_direction), :id => 'camp-form' } do |form| %>
+<%= simple_form_for([@event, @camp], html: {dir: I18n.t(:html_direction), id: 'camp-form'}) do |form| %>
   <%= render 'dont_miss_out', except: nil %>
   <div class="pink-div">
     <%= t("press_to_edit") %>
@@ -65,14 +65,14 @@
       <%= t("form_dream_name_guidetext_html") %>
     </div>
     <blockquote>
-      <%= best_in_place_if @can_edit, @camp, :name, html_attrs: {maxlength: 64, class: "form-control"} %>
+      <%= best_in_place_if @can_edit, [@event, @camp], :name, html_attrs: {maxlength: 64, class: "form-control"} %>
     </blockquote>
   </div>
   <% if app_setting("multi_lang_support") %>
     <div class="combo">
       <%= form.label t("form_dream_name_en_label") %>
       <blockquote>
-        <%= best_in_place_if @can_edit,@camp, :en_name, html_attrs: {maxlength: 64, class: "form-control"}, place_holder: t(:form_click_to_edit_html) %>
+        <%= best_in_place_if @can_edit, [@event, @camp], :en_name, html_attrs: {maxlength: 64, class: "form-control"}, place_holder: t(:form_click_to_edit_html) %>
       </blockquote>
     </div>
   <% end %>
@@ -82,14 +82,14 @@
       <%= t("form_subtitle_guidetext_html") %>
     </div>
     <blockquote>
-      <%= best_in_place_if @can_edit, @camp, :subtitle, html_attrs: {maxlength: 255, class: "form-control"},as: :textarea, display_with: :simple_format %>
+      <%= best_in_place_if @can_edit, [@event, @camp], :subtitle, html_attrs: {maxlength: 255, class: "form-control"},as: :textarea, display_with: :simple_format %>
     </blockquote>
   </div>
   <% if app_setting("multi_lang_support") %>
     <div class="combo">
       <%= form.label t("form_subtitle_en_label") %>
       <blockquote>
-        <%= best_in_place_if @can_edit, @camp, :en_subtitle, html_attrs: {maxlength: 255, class: "form-control"},as: :textarea, display_with: :simple_format, place_holder: t(:form_click_to_edit_html) %>
+        <%= best_in_place_if @can_edit, [@event, @camp], :en_subtitle, html_attrs: {maxlength: 255, class: "form-control"},as: :textarea, display_with: :simple_format, place_holder: t(:form_click_to_edit_html) %>
       </blockquote>
     </div>
   <% end %>
@@ -99,7 +99,7 @@
       <%= t("form_creator_name_guidetext_html") %>
     </div>
     <blockquote>
-      <%= best_in_place_if @can_edit, @camp, :contact_name, html_attrs: {maxlength: 64, class: "form-control"}, place_holder: t(:form_click_to_edit_html) %>
+      <%= best_in_place_if @can_edit, [@event, @camp], :contact_name, html_attrs: {maxlength: 64, class: "form-control"}, place_holder: t(:form_click_to_edit_html) %>
     </blockquote>
   </div>
   <div class="combo" id="visability">
@@ -118,20 +118,20 @@
         <%= t("form_contact_phone_guidetext_html") %>
       </div>
       <blockquote>
-        <%= best_in_place_if @can_edit, @camp, :contact_phone, html_attrs: {maxlength: 64, class: "form-control"}, place_holder: t(:form_click_to_edit_html) %>
+        <%= best_in_place_if @can_edit, [@event, @camp], :contact_phone, html_attrs: {maxlength: 64, class: "form-control"}, place_holder: t(:form_click_to_edit_html) %>
       </blockquote>
     <% end %>
   </div>
   <div class="combo">
     <%= form.label t("form_about_the_artist_label") %>
     <blockquote>
-      <%= best_in_place_if @can_edit, @camp, :about_the_artist, html_attrs: {maxlength: 1024, class: "form-control"},as: :textarea, display_with: :simple_format, place_holder: t(:form_click_to_edit_html) %>
+      <%= best_in_place_if @can_edit, [@event, @camp], :about_the_artist, html_attrs: {maxlength: 1024, class: "form-control"},as: :textarea, display_with: :simple_format, place_holder: t(:form_click_to_edit_html) %>
     </blockquote>
   </div>
   <div class="combo">
     <%= form.label t("form_dream_website_label") %>
     <blockquote>
-      <%= best_in_place_if @can_edit, @camp, :website, html_attrs: {maxlength: 512, class: "form-control"}, display_with: :simple_format, place_holder: t(:form_click_to_edit_html) %>
+      <%= best_in_place_if @can_edit, [@event, @camp], :website, html_attrs: {maxlength: 512, class: "form-control"}, display_with: :simple_format, place_holder: t(:form_click_to_edit_html) %>
     </blockquote>
   </div>
   <div class="combo" id="description">
@@ -141,7 +141,7 @@
         <%= t("form_description_guidetext_html") %>
       </div>
       <blockquote>
-        <%= best_in_place_if @can_edit, @camp, :description, html_attrs: {maxlength: 4096, class: "form-control"}, as: :textarea, display_with: :simple_format, place_holder: t(:form_click_to_edit_html) %>
+        <%= best_in_place_if @can_edit, [@event, @camp], :description, html_attrs: {maxlength: 4096, class: "form-control"}, as: :textarea, display_with: :simple_format, place_holder: t(:form_click_to_edit_html) %>
       </blockquote>
     <% end %>
   </div>
@@ -152,7 +152,7 @@
         <%= t("form_electricity_guidetext_html") %>
       </div>
       <blockquote>
-        <%= best_in_place_if @can_edit, @camp, :electricity, html_attrs: {maxlength: 256, class: "form-control"}, as: :textarea, display_with: :simple_format, place_holder: t(:form_click_to_edit_html) %>
+        <%= best_in_place_if @can_edit, [@event, @camp], :electricity, html_attrs: {maxlength: 256, class: "form-control"}, as: :textarea, display_with: :simple_format, place_holder: t(:form_click_to_edit_html) %>
       </blockquote>
     <% end %>
   </div>
@@ -163,7 +163,7 @@
         <%= t("form_fire_guidetext_html") %>
       </div>
       <blockquote>
-        <%= best_in_place_if @can_edit, @camp, :fire, html_attrs: {maxlength: 512, class: "form-control"}, as: :textarea, display_with: :simple_format, place_holder: t(:form_click_to_edit_html) %>
+        <%= best_in_place_if @can_edit, [@event, @camp], :fire, html_attrs: {maxlength: 512, class: "form-control"}, as: :textarea, display_with: :simple_format, place_holder: t(:form_click_to_edit_html) %>
       </blockquote>
     <% end %>
   </div>
@@ -174,7 +174,7 @@
         <%= t("form_noise_guidetext_html") %>
       </div>
       <blockquote>
-        <%= best_in_place_if @can_edit, @camp, :noise, html_attrs: {maxlength: 256, class: "form-control"}, place_holder: t(:form_click_to_edit_html) %>
+        <%= best_in_place_if @can_edit, [@event, @camp], :noise, html_attrs: {maxlength: 256, class: "form-control"}, place_holder: t(:form_click_to_edit_html) %>
       </blockquote>
     <% end %>
   </div>
@@ -185,7 +185,7 @@
         <%= t("form_nature_guidetext_html") %>
       </div>
       <blockquote>
-        <%= best_in_place_if @can_edit, @camp, :nature, html_attrs: {maxlength: 512, class: "form-control"}, as: :textarea, display_with: :simple_format, place_holder: t(:form_click_to_edit_html) %>
+        <%= best_in_place_if @can_edit, [@event, @camp], :nature, html_attrs: {maxlength: 512, class: "form-control"}, as: :textarea, display_with: :simple_format, place_holder: t(:form_click_to_edit_html) %>
       </blockquote>
     <% end %>
   </div>
@@ -196,7 +196,7 @@
         <%= t("form_recycling_guidetext_html") %>
       </div>
       <blockquote>
-        <%= best_in_place_if @can_edit, @camp, :recycling, html_attrs: {maxlength: 512, class: "form-control"}, as: :textarea, display_with: :simple_format, place_holder: t(:form_click_to_edit_html) %>
+        <%= best_in_place_if @can_edit, [@event, @camp], :recycling, html_attrs: {maxlength: 512, class: "form-control"}, as: :textarea, display_with: :simple_format, place_holder: t(:form_click_to_edit_html) %>
       </blockquote>
     <% end %>
   </div>
@@ -207,7 +207,7 @@
         <%= t("form_light_guidetext_html") %>
       </div>
       <blockquote>
-        <%= best_in_place_if @can_edit, @camp, :light, html_attrs: {maxlength: 512, class: "form-control"}, place_holder: t(:form_click_to_edit_html) %>
+        <%= best_in_place_if @can_edit, [@event, @camp], :light, html_attrs: {maxlength: 512, class: "form-control"}, place_holder: t(:form_click_to_edit_html) %>
       </blockquote>
     <% end %>
   </div>
@@ -218,7 +218,7 @@
         <%= t("form_moop_guidetext_html") %>
       </div>
       <blockquote>
-        <%= best_in_place_if @can_edit, @camp, :moop, html_attrs: {maxlength: 1024, class: "form-control"}, as: :textarea, display_with: :simple_format, place_holder: t(:form_click_to_edit_html) %>
+        <%= best_in_place_if @can_edit, [@event, @camp], :moop, html_attrs: {maxlength: 1024, class: "form-control"}, as: :textarea, display_with: :simple_format, place_holder: t(:form_click_to_edit_html) %>
       </blockquote>
     <% end %>
   </div>
@@ -229,7 +229,7 @@
         <%= t("form_cocreation_guidetext_html") %>
       </div>
       <blockquote>
-        <%= best_in_place_if @can_edit, @camp, :cocreation, html_attrs: {maxlength: 4096, class: "form-control"}, as: :textarea, display_with: :simple_format, place_holder: t(:form_click_to_edit_html) %>
+        <%= best_in_place_if @can_edit, [@event, @camp], :cocreation, html_attrs: {maxlength: 4096, class: "form-control"}, as: :textarea, display_with: :simple_format, place_holder: t(:form_click_to_edit_html) %>
       </blockquote>
     <% end %>
   </div>
@@ -240,7 +240,7 @@
         <%= t("form_neighbors_guidetext_html") %>
       </div>
       <blockquote>
-        <%= best_in_place_if @can_edit, @camp, :neighbors, html_attrs: {maxlength: 4096, class: "form-control"}, as: :textarea, display_with: :simple_format, place_holder: t(:form_click_to_edit_html) %>
+        <%= best_in_place_if @can_edit, [@event, @camp], :neighbors, html_attrs: {maxlength: 4096, class: "form-control"}, as: :textarea, display_with: :simple_format, place_holder: t(:form_click_to_edit_html) %>
       </blockquote>
     <% end %>
   </div>
@@ -264,7 +264,7 @@
           <%= t("form_minigrants_realcurrency_guidetext_html") %>
       </div>
       <blockquote>
-          <%= best_in_place_if @can_edit, @camp, :minbudget_realcurrency, html_attrs: {maxlength: 6, class: "form-control"}, place_holder: t(:form_click_to_edit_html), display_with: :number_to_currency, :helper_options => {:unit => "", precision:0} %>
+          <%= best_in_place_if @can_edit, [@event, @camp], :minbudget_realcurrency, html_attrs: {maxlength: 6, class: "form-control"}, place_holder: t(:form_click_to_edit_html), display_with: :number_to_currency, :helper_options => {:unit => "", precision:0} %>
       </blockquote>
   <% end %>
   <% if app_setting("granting") and !app_setting('disable_edit_budget') %>
@@ -275,7 +275,7 @@
           <%= t("form_maxigrants_realcurrency_guidetext_html") %>
       </div>
       <blockquote>
-          <%= best_in_place_if @can_edit, @camp, :maxbudget_realcurrency, html_attrs: {maxlength: 6, class: "form-control"}, place_holder: t(:form_click_to_edit_html), display_with: :number_to_currency, :helper_options => {:unit => "", precision:0} %>
+          <%= best_in_place_if @can_edit, [@event, @camp], :maxbudget_realcurrency, html_attrs: {maxlength: 6, class: "form-control"}, place_holder: t(:form_click_to_edit_html), display_with: :number_to_currency, :helper_options => {:unit => "", precision:0} %>
       </blockquote>
   <% end %>
   <% if app_setting("granting") and app_setting("budgeting") %>

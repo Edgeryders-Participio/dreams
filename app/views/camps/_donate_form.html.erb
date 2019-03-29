@@ -1,6 +1,7 @@
   <div class="modal" id="donateModal" tabindex="-1" role="dialog" aria-labelledby="donateModalLabel" dir=<%=t :html_direction %>>
   <% if Rails.configuration.x.firestarter_settings["granting_active"] and current_user and @camp.minbudget %>
     <%= form_tag({controller: "camps", action: "update_grants"}, method: "patch", id:"donateForm") do %>
+      <% grants_left = current_user.grants_left_for(@event) %>
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -19,15 +20,15 @@
                         <span class='heart' id='heart5' data-animated-heart='<%= asset_path('hearts/heart_05.png')%>'></span>
                     </div>
                     <b> <%=t :donate_text %>
-                      <%= number_field_tag 'grants', nil, in: 0..current_user.grants, step: 1, value: 1, class:'donate-value form-control' %>
+                      <%= number_field_tag 'grants', nil, in: 0..grants_left, step: 1, value: 1, class:'donate-value form-control' %>
                       <%=t :coins_text %>
 
                      </b>
                 </span>
-              <span class='coins-left' style='float: <%=t :reverse_direction %>'><b><%=t :coins_left %> <%= current_user.grants %></b></span>
+              <span class='coins-left' style='float: <%=t :reverse_direction %>'><b><%=t :coins_left %> <%= grants_left %></b></span>
               </p>
             </div>
-            <% if current_user and current_user.grants > 0 %>
+            <% if current_user and grants_left > 0 %>
               <%= submit_tag t(:i_gift_thee_grants), :class => "btn btn-success donate-now-button" %>
             <% else %>
               <%= submit_tag t(:i_gift_thee_grants_diabled), :class => "btn btn-success donate-now-button" , :disabled => true%>

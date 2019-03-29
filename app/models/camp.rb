@@ -21,7 +21,7 @@ class Camp < ApplicationRecord
   has_many :images #, :dependent => :destroy
   has_many :safety_sketches
 
-  has_many :all_grants, class_name: "Grant"
+  has_many :grants, -> { where(event: self.event) }
   
   has_many :budget_items 
   has_many :safety_items 

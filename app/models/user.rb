@@ -25,7 +25,7 @@ class User < ApplicationRecord
     u = where(provider: auth.provider, uid: auth.uid).first_or_create! do |u|
       u.email = auth.uid # .info.email TODO for supporting other things than keycloak
       u.password = Devise.friendly_token[0,20]
-      puts ">>>>>>>>>>>>>>>>", auth.extra.raw_info.all
+      
       # Omniauth doesn't know the keycloak schema
       u.name = auth.extra.raw_info.all.fetch("urn:oid:2.5.4.42", []).fetch(0, "")
       # Last name : urn:oid:2.5.4.4
