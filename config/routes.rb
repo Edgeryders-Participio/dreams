@@ -17,8 +17,9 @@ Rails.application.routes.draw do
   
   resources :organizations, only: :show
 
-  get '/pages/:page' => 'pages#show'
+  get '/users/:id', to: 'users#show', as: :user
   get '/me' => 'users#me'
+  get '/pages/:page' => 'pages#show'
   get '/howcanihelp' => 'howcanihelp#index'
 
   get 'events', to: 'events#index', as: 'events'

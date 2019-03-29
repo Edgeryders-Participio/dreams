@@ -61,5 +61,5 @@
   </div>
 </div>
 
-<%= render :partial => 'users/favorites', locals: { camps: @camps } %>
-</div class='me'>
+<%= render :partial => 'users/favorites', locals: { camps: @camps, user: current_user } %>
+</div>

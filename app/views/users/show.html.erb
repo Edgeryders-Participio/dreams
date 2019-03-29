@@ -1,0 +1,10 @@
+<% content_for(:head) do %>
+    <title><%= t(:browser_title_tag) %></title>
+    <%= javascript_include_tag 'blueimp_script' %>
+<% end %>
+
+
+<div class='me'>
+    <%= render :partial => 'users/favorites', locals: { camps: @camps, user: @user } %>
+</div>
+

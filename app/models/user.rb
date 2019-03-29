@@ -22,16 +22,9 @@ class User < ApplicationRecord
   schema_validations whitelist: [:id, :created_at, :updated_at, :encrypted_password]
 
   def self.from_omniauth(auth)
-    u = where(provider: auth.provider, uid: auth.uid).first_or_create! do |u|
+    u = where(email: auth.uid).first_or_create! do |u|
       u.email = auth.uid # .info.email TODO for supporting other things than keycloak
       u.password = Devise.friendly_token[0,20]
-      
-      # Omniauth doesn't know the keycloak schema
-      u.name = auth.extra.raw_info.all.fetch("urn:oid:2.5.4.42", []).fetch(0, "")
-      # Last name : urn:oid:2.5.4.4
-      # Roles: raw_info.all["Role"] : array[string]
-      # avatars: get https://talk.theborderland.se/api/v1/profile/{username}
-      # either loomio picture or gravatar
     end
   end
 

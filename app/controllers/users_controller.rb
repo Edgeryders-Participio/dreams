@@ -11,6 +11,10 @@ class UsersController < ApplicationController
     @memberships = current_user.collaborators.distinct.pluck(:email) - Array(current_user.email)
   end
 
+  def show
+    @user = User.find(params[:id])
+  end
+
   def load_lang_detector
     @detector = StringDirection::Detector.new(:dominant)
   end
