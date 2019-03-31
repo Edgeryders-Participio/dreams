@@ -6,7 +6,7 @@ class CampsController < ApplicationController
   before_action :ensure_admin_delete!, only: [:destroy, :archive]
   before_action :ensure_admin_update!, only: [:update]
   before_action :ensure_grants!, only: [:update_grants]
-  before_action :load_lang_detector, only: [:show, :index]
+  before_action :load_lang_detector, only: [:show, :index, :card]
 
   def index
   end
@@ -103,6 +103,12 @@ class CampsController < ApplicationController
   # Display a camp and its users
   def show
     @main_image = @camp.images.first&.attachment&.url(:large)
+  end
+
+  def card
+    @main_image = @camp.images.first&.attachment&.url(:large)
+
+    render :show, :layout => false
   end
 
   # Allow a user to join a particular camp.

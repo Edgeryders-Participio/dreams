@@ -475,3 +475,17 @@ body {
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   }
 }
+
+.show-lightbox {
+  display: inline-block;
+  background-image: url(/images/eye.png);
+  height: 60px;
+  width: 60px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 70%;
+  right: 20px;
+  position: absolute;
+  z-index: 200;
+  cursor: pointer;
+}

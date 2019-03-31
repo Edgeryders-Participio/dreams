@@ -25,6 +25,7 @@ Rails.application.routes.draw do
     patch 'update_grants', on: :member
     post 'remove_tag', on: :member
     post 'tag', on: :member
+    get 'card', on: :member
   end
 
   get '/pages/:page' => 'pages#show'

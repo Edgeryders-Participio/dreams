@@ -94,3 +94,32 @@ $(document).ready(function() {
 $(document).ready(function() {
   $(".best_in_place").best_in_place();
 });
+
+$(document).ready(function() {
+
+  function showLightbox(event, element) {
+    var dreams = [];
+    $('.card').each(function(index, value) {
+      dreams.push({campId:$(value).data('camp-id'), campImage:$(value).data('camp-image')})
+    });
+
+    console.log(dreams, $(event.target).data('camp-id'));
+
+    //get location/size from source div
+
+    //calculate target coordinates
+
+    //from -> to
+
+    return false;
+  }
+
+  function closeLightbox() {
+    //find target card coords
+
+    //animate delta
+  }
+
+
+  $('.show-lightbox').click(showLightbox)
+});

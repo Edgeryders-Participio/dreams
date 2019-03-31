@@ -1,10 +1,12 @@
-<div class='card <%= css_classes if defined?(css_classes)%>'>
+<div class='card <%= css_classes if defined?(css_classes)%>' data-camp-id='<%=camp.id%>' data-camp-image='<%=camp.images.any? ? camp.images.first.attachment.url(:large) : 'bsb_placeholder_square.jpg'%>'>
     <% if user_signed_in? %>
         <%= link_to toggle_favorite_camp_path(:id => camp.id), method: :patch, class: (camp.favorite_users.include?(current_user) ? 'favorite-button starred' : 'favorite-button'), id: 'favorite-button', :remote => true do %>
             <span id="star-icon" class="glyphicon <%= camp.favorite_users.include?(current_user) ? 'glyphicon-star' : 'glyphicon-star-empty' %>"></span>
         <% end %>
     <% end %>
-    <a href="<%= url_for(camp) %>">
+  <span class="show-lightbox" data-camp-id='<%=camp.id%>'></span>
+
+  <a href="<%= url_for(camp) %>">
         <div class="panel panel-info">
             <div class="panel-body camp-index">
                 
