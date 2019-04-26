@@ -134,7 +134,10 @@ class CampsController < ApplicationController
 
   def set_color
     # @camp.update(tag_list: @camp.tag_list.add(tag_params))
-    @camp.update(color: camp_params["color"])
+    # Handle security issues
+    if camp_params["color"] and camp_params["color"].length < 25
+      @camp.update(color: camp_params["color"])
+    end
     # render json: camp_params
   end
 
