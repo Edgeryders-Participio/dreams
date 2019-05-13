@@ -1,0 +1,65 @@
+<% content_for(:head) do %>
+  <title><%= t :browser_title_tag %></title>
+  <meta property="og:title" content="<%= t :browser_title_tag %>" />
+  <meta property="og:description" content="<%= t :main_sharing_description %>" />
+  <meta property="og:image" content="<%= ENV['APP_URL'] %>assets/coverphoto.png" />
+<% end %>
+
+<div class="top_message" dir=<%=t :html_direction %>>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <% if user_signed_in? %>
+        <%=t :welcome_user_title %>
+      <% else %>
+        <%=t :welcome_guest_title %>
+      <% end %>
+    </div>
+    <div class="panel-body">
+      <div class="col-md-8">
+        <% if user_signed_in? %>
+          <%=t :welcome_user_text_html %>
+        <% else %>
+          <%=t :welcome_guest_text_html %>
+        <% end %>
+      </div>
+      <div class="col-md-4">
+        <%= form_for_filterrific @filterrific do |f| %>
+
+        <div>
+          <%=t :search_title %>
+          <%# give the search field the 'filterrific-periodically-observed' class for live updates %>
+          <%= f.text_field(
+            :search_query,
+            class: 'filterrific-periodically-observed form-control'
+          ) %>
+        </div>
+
+        <div class="form-inline tag-filter">
+          </span>Select Tag:</span>
+          <%= f.select :tagged_with, @filterrific.select_options[:tagged_with], include_blank: 'All' %>
+        </div>
+
+        <div class="form-inline">
+          <%= f.check_box(:not_fully_funded, class: 'filterrific-periodically-observed checkbox') %>
+          <span><span class="glyphicon glyphicon-heart gi-1-5x" aria-hidden="true"></span>&nbsp&nbsp<%=t :hide_fully_funded %></span>
+        </div>
+
+        <div class="form-inline">
+          <%= f.check_box(:not_min_funded, class: 'filterrific-periodically-observed checkbox') %>
+          <span class="glyphicon glyphicon-heart-empty gi-1-5x" aria-hidden="true"></span><span>&nbsp&nbsp<%=t :hide_minimum_funded %></span>
+        </div>
+
+        <div class="form-inline">
+          <%= f.check_box(:not_seeking_funding, class: 'filterrific-periodically-observed checkbox') %>
+          <span class="glyphicon glyphicon-eye-close gi-1-5x" aria-hidden="true"></span><span>&nbsp&nbsp <%=t :hide_not_open_for_granting %></span>
+        </div>
+
+        <%= render_filterrific_spinner %>
+
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render partial: 'guideview/list', locals: { camps: @camps } %>

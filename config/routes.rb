@@ -42,6 +42,7 @@ Rails.application.routes.draw do
   get '/users/:id', to: 'users#show', as: :user
   get '/pages/:page' => 'pages#show'
   get '/howcanihelp' => 'howcanihelp#index'
+  get '/guideview' => 'guideview#index'
   
   get '*unmatched_route' => 'application#not_found'
 end

@@ -1,0 +1,14 @@
+<%
+  budgetSum = BudgetItem.where(camp_id: @camp.id).sum(:amount)
+  if budgetSum.present? and @camp.maxbudget_realcurrency.present?
+    budgetAlert = (budgetSum + 100 < @camp.maxbudget_realcurrency)
+  end
+%>
+
+<% if budgetAlert.present? %>
+    <div class="row alignedrow">
+    <p class="alert" style='float: <%=t :lang_direction %>' dir='<%=t :html_direction %>'>
+        Budget alert! Sum of budget items (<%= budgetSum %> DKK) is smaller than the max amount the Dream is asking for (<%= @camp.maxbudget_realcurrency %> DKK). This is probably an honest mistake, but use caution.
+    </p>
+    </div>
+<% end %>

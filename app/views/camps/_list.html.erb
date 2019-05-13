@@ -1,15 +1,21 @@
 <div id='grid-view'>
     <div id="filterrific_results">
 
-        <%=t :sort_by%>:
-        <%= filterrific_sorting_link(@filterrific, :dreamyness) %>
+        <h2 class="header-sub-heading">Here are 48 random dreams! Want more? Roll the dice again.</h2>
+
+        <a href="/" class="btn btn-primary camp-button" role="button">
+            Show me more! <span class="glyphicon glyphicon-random vertical-middle" aria-hidden="true"></span>
+        </a>
 
         <div class="camps_list">
-            
             <% @camps.each do |camp| %>
                 <%= render :partial => 'camps/camp_card', locals: { camp: camp, display_desc: true, css_classes: "col-md-4" } %>
             <% end %>
         </div>
+
+        <a href="/" class="btn btn-primary camp-button" role="button">
+            Show me more! <span class="glyphicon glyphicon-random vertical-middle" aria-hidden="true"></span>
+        </a>
 
     </div>
 </div>

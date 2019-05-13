@@ -1,0 +1,29 @@
+<tr>
+  <td>
+    <a href="<%= url_for(camp) %>">
+      <% @name = (app_setting('multi_lang_support') and camp.en_name.present? and I18n.locale.to_s == 'en')? camp.en_name : camp.name %>
+      <%= simple_format(truncate(@name, length: 60), { class: "name" }, wrapper_tag: 'h4') %>
+    </a>
+  </td>
+  <td>
+    <a href="<%= url_for(camp) %>">
+      <% if app_setting("granting_active") and camp.minbudget %>
+        <%= camp.minbudget %>
+      <% end %>
+    </a>
+  </td>
+  <td>
+    <a href="<%= url_for(camp) %>">
+      <% if app_setting("granting_active") and camp.maxbudget %>
+        <%= camp.minbudget %>
+      <% end %>
+    </a>
+  </td>
+  <td>
+    <a href="<%= url_for(camp) %>">
+      <% if app_setting("granting_active") and camp.maxbudget %>
+        <%= camp.grants_received %>
+      <% end %>
+    </a>
+  </td>  
+</tr>
