@@ -91,7 +91,7 @@ en:
   form_artgrants_text_footer_html: "<b>After hitting save that amount would be translated into grantlets (Divided by %{ratio})</b>"
   form_maxigrants_realcurrency_guidetext_html: "How much money would you need to fully fund your project?"
   form_budgetplan_label: "Budget overview"
-  form_budgetplan_guidetext_html: "How will you use your budget? Press 'Add new budget item' to add new budget posts. Add as many budget posts as you need, but don't be too specific nor too vague."
+  form_budgetplan_guidetext_html: "How will you use your budget? Press 'Add new budget item' to add new budget posts. Add one post per item in your budget (So one post will be 14 pillows and another will be for one barrel of lube). Add as many budget posts as you need and don't be too specific nor too vague."
 
   form_click_to_edit_html: <a>Click to edit</a>
 
